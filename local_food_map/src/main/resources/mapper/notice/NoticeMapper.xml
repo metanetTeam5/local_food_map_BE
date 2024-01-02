@@ -4,8 +4,8 @@
 
 
 <!-- <mapper namespace="com.example.demo.grade.dao.IGradeRepository">  -->
-<mapper namespace="com.example.demo.notice.dao.INoticeRepository">
-	<insert id="insertNotice" parameterType="com.example.demo.notice.model.Notice">
+<mapper namespace="com.metanet.amatmu.notice.dao.INoticeRepository">
+	<insert id="insertNotice" parameterType="com.metanet.amatmu.notice.model.Notice">
 	<![CDATA[
 		INSERT INTO 
 			NOTICE (
@@ -39,7 +39,7 @@
 	]]>
 	</select>
 	
-	<select id="selectNoticeById" parameterType="long" resultType="com.example.demo.notice.model.Notice">
+	<select id="selectNoticeById" parameterType="long" resultType="com.metanet.amatmu.notice.model.Notice">
 		SELECT
 			noti_id as notiId,
 			noti_title as notiTitle,
@@ -54,7 +54,7 @@
 			noti_id = #{notiId}
 	</select>
 	
-	<update id="updateNotice" parameterType="com.example.demo.notice.model.Notice">
+	<update id="updateNotice" parameterType="com.metanet.amatmu.notice.model.Notice">
 	<![CDATA[
 		UPDATE notice
 		SET
@@ -66,7 +66,7 @@
 	]]>
 	</update>
 	
-	<update id="updateNoticeViews" parameterType="com.example.demo.notice.model.Notice">
+	<update id="updateNoticeViews" parameterType="com.metanet.amatmu.notice.model.Notice">
 	<![CDATA[
 		UPDATE notice
 		SET
@@ -86,7 +86,7 @@
 	</delete>
 	
 	
-	<resultMap id="noticeResultMap" type="com.example.demo.notice.model.Notice">
+	<resultMap id="noticeResultMap" type="com.metanet.amatmu.notice.model.Notice">
 		<id property="notiId" column="noti_id"/>
 		<result property="notiTitle" column="noti_title"/>
 		<result property="notiContent" column="noti_content"/>

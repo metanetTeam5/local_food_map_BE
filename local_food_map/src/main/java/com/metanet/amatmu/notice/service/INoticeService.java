@@ -2,10 +2,12 @@ package com.metanet.amatmu.notice.service;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
-import com.example.demo.notice.model.Notice;
-import com.example.demo.notice.model.NoticeDto;
+import com.metanet.amatmu.notice.model.Notice;
+import com.metanet.amatmu.notice.model.NoticeDto;
+
 
 
 public interface INoticeService {

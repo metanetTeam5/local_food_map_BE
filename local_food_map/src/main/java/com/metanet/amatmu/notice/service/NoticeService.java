@@ -2,13 +2,17 @@ package com.metanet.amatmu.notice.service;
 
 import java.time.LocalDateTime;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.metanet.amatmu.exception.QueryFailedException;
+import com.metanet.amatmu.exception.UpdateFailedException;
 import com.metanet.amatmu.notice.dao.INoticeRepository;
-
+import com.metanet.amatmu.notice.model.Notice;
+import com.metanet.amatmu.notice.model.NoticeDto;
 
 
 
