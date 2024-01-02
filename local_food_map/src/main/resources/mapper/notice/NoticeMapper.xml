@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- <mapper namespace="com.example.demo.grade.dao.IGradeRepository">  -->
+<mapper namespace="com.example.demo.notice.dao.INoticeRepository">
+	<insert id="insertNotice" parameterType="com.example.demo.notice.model.Notice">
+	<![CDATA[
+		INSERT INTO 
+			NOTICE (
+				noti_id, noti_title, noti_content, noti_create_date, noti_update_date, noti_views, memb_id
+			)
+			VALUES (
+				#{notiId}, #{notiTitle}, #{notiContent}, #{notiCreateDate}, #{notiUpdateDate}, #{notiViews}, #{membId}
+			)
+	]]>
+	</insert>
+	
+	<select id="selectMaxNoticeId" resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(noti_id), 0) as "notiId"
+		FROM notice
+	]]>
+	</select>
+	
+	<select id="selectAllNotice" resultMap="noticeResultMap">
+	<![CDATA[
+		SELECT
+			noti_id,
+			noti_title,
+			noti_content,
+			noti_create_date,
+			noti_update_date,
+			noti_views,
+			memb_id
+		FROM
+			notice
+	]]>
+	</select>
+	
+	<select id="selectNoticeById" parameterType="long" resultType="com.example.demo.notice.model.Notice">
+		SELECT
+			noti_id as notiId,
+			noti_title as notiTitle,
+			noti_content as notiContent,
+			noti_create_date as notiCreateDate,
+			noti_update_date as notiUpdateDate,
+			noti_views as notiViews,
+			memb_id as membId
+		FROM
+			notice
+		WHERE
+			noti_id = #{notiId}
+	</select>
+	
+	<update id="updateNotice" parameterType="com.example.demo.notice.model.Notice">
+	<![CDATA[
+		UPDATE notice
+		SET
+			noti_title = #{notiTitle},
+			noti_content = #{notiContent},
+			noti_update_date = #{notiUpdateDate}
+		WHERE
+			noti_id = #{notiId}
+	]]>
+	</update>
+	
+	<update id="updateNoticeViews" parameterType="com.example.demo.notice.model.Notice">
+	<![CDATA[
+		UPDATE notice
+		SET
+			noti_views = #{notiViews}
+		WHERE
+			noti_id = #{notiId}
+	]]>
+	</update>
+	
+	<delete id="deleteNoticeById" parameterType="long">
+		<![CDATA[
+			DELETE FROM
+				NOTICE
+			WHERE
+				noti_id = #{notiId}
+		]]>	
+	</delete>
+	
+	
+	<resultMap id="noticeResultMap" type="com.example.demo.notice.model.Notice">
+		<id property="notiId" column="noti_id"/>
+		<result property="notiTitle" column="noti_title"/>
+		<result property="notiContent" column="noti_content"/>
+		<result property="notiCreateDate" column="noti_content_date"/>
+		<result property="notiUpdateDate" column="noti_update_date"/>
+		<result property="notiViews" column="noti_views"/>
+		<result property="membId" column="memb_id"/>
+	</resultMap>
+	
+
+<!-- 
+
+
+	<select id="selectGrade" parameterType="Long" resultType="com.example.demo.grade.model.GradeVO">
+	<![CDATA[
+		SELECT 
+			grade_id as gradeId,
+			grade_name as gradeName,
+			grade_order as gradeOrder
+		FROM 
+			grade 
+		WHERE grade_id=#{gradeId}
+	]]>
+	</select>
+	
+	
+    <select id="selectAllGrade" resultMap="gradeResultMap">
+        <![CDATA[
+        SELECT
+            grade_id,
+            grade_name,
+            grade_order
+        FROM
+            grade
+        ]]>
+    </select>
+    
+    <update id="updateGrade" parameterType="com.example.demo.grade.model.GradeVO" >
+		<![CDATA[
+			UPDATE GRADE
+			SET 
+				grade_name=#{gradeName}, 
+				grade_order=#{gradeOrder} 
+			WHERE 
+				grade_id=#{gradeId} 
+		]]>
+	</update>
+	
+	
+	<delete id="deleteGrade" parameterType="com.example.demo.grade.model.GradeVO">
+		<![CDATA[
+			DELETE FROM
+				GRADE 
+			WHERE
+				grade_id=#{gradeId}
+		]]>
+	</delete>
+	
+
+
+    <resultMap id="gradeResultMap" type="com.example.demo.grade.model.GradeVO">
+        <id property="gradeId" column="grade_id"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="gradeOrder" column="grade_order"/>
+    </resultMap>
+	
+	
+
+
+
+ -->
+
+
+
+	<!-- <update id="updateMember" parameterType="com.example.myapp.member.model.Member">
+	<![CDATA[
+		UPDATE MEMBER
+		SET 
+			name=#{name}, password=#{password}, phone=#{phone}, email=#{email} 
+		WHERE 
+			userid=#{userid}
+	]]>
+	</update>
+	
+	<delete id="deleteMember" parameterType="com.example.myapp.member.model.Member">
+	<![CDATA[
+		DELETE FROM
+			member 
+		WHERE
+			userid=#{userid} AND password=#{password}
+	]]>
+	</delete>
+	
+	<select id="getPassword" parameterType="string" resultType="string">
+	<![CDATA[
+		SELECT
+			password
+		FROM
+			member
+		WHERE userid=#{userid}
+	]]>
+	</select> -->
+	
+</mapper>

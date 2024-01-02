@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.metanet.amatmu;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +9,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home(Model model) {
+		System.out.println("------homecontroller------");
 		model.addAttribute("message", "Welcome");
 		return "home";
 	}
