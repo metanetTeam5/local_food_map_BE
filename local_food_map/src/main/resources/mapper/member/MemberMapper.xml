@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.metanet.amatmu.member.dao.IMemberRepository">
+
+	<select id="selectMaxMemberNo" parameterType="long"
+		resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(memb_id),0) AS "memberNo"
+		FROM member
+	]]>
+	</select>
+
+	<insert id="registerMember"
+		parameterType="com.metanet.amatmu.member.model.Member">
+	<![CDATA[
+		INSERT INTO 
+			member (memb_id, memb_email, memb_password, memb_nickname, memb_name, memb_gender, 
+    		memb_birth_date, memb_phone_number, memb_profile_img, memb_role, memb_is_deleted) 
+		VALUES 
+			(#{memberId}, #{email}, #{password}, #{nickname}, #{name}, #{gender}, #{birthDate}, 
+			#{phoneNumber}, #{profileImg}, #{role}, #{isDeleted})
+	]]>
+	</insert>
+	
+	<select id="checkEmailDuplicate" parameterType="String"
+		resultType="Integer">
+	<![CDATA[
+		SELECT count(*)
+		FROM member
+		WHERE memb_email = #{email}
+		AND memb_is_deleted = 'N'
+	]]>
+	</select>
+	
+	<select id="checkNicknameDuplicate" parameterType="String"
+		resultType="Integer">
+	<![CDATA[
+		SELECT count(*)
+		FROM member
+		WHERE memb_nickname = #{nickname}
+		AND memb_is_deleted = 'N'
+	]]>
+	</select>
+	
+	<select id="checkPhoneNumberDuplicate" parameterType="String"
+		resultType="Integer">
+	<![CDATA[
+		SELECT count(*)
+		FROM member
+		WHERE memb_phone_number = #{phoneNumber}
+		AND memb_is_deleted = 'N'
+	]]>
+	</select>
+
+	<select id="selectMember" parameterType="string" resultType="com.metanet.amatmu.member.model.Member">
+	<![CDATA[
+		SELECT 
+			memb_id as memberId, memb_email as email, memb_password as password, memb_nickname as nickname,
+			memb_name as name, memb_gender as gender, memb_birth_date as birthDate, memb_phone_number as phoneNumber,
+			memb_profile_img as profileImg, memb_create_date as createDate, memb_update_date as updateDate, memb_role as role,
+			memb_is_deleted as isDeleted
+		FROM 
+			member 
+		WHERE memb_email=#{email}
+		AND memb_is_deleted = 'N'
+	]]>
+	</select>
+	
+	<update id="updateMemberInfo" parameterType="com.metanet.amatmu.member.model.Member">
+	<![CDATA[
+		UPDATE member
+		SET 
+			memb_password=#{password}, memb_nickname=#{nickname}, 
+			memb_phone_number=#{phoneNumber}, memb_profile_img=#{profileImg}
+		WHERE 
+			memb_email=#{email}
+		AND memb_is_deleted = 'N'
+	]]>
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+	<![CDATA[
+		UPDATE member
+		SET 
+			memb_is_deleted = 'Y'
+		WHERE 
+			memb_email=#{email}
+		AND memb_is_deleted = 'N'
+	]]>
+	</delete>
+	
+	<update id="updateMemberProfileImg" parameterType="com.metanet.amatmu.member.dto.MemberEmailProfileDto">
+	<![CDATA[
+		UPDATE member
+		SET 
+			memb_profile_img=#{profileImg}
+		WHERE 
+			memb_email=#{email}
+		AND memb_is_deleted = 'N'
+	]]>
+	</update>
+</mapper>
