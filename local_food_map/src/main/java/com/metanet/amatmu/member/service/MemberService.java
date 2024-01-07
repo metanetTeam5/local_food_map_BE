@@ -21,7 +21,6 @@ import com.metanet.amatmu.member.exception.MemberErrorCode;
 import com.metanet.amatmu.member.exception.MemberException;
 import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.utils.S3Uploader;
-import com.metanet.amatmu.utils.TwilioService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -33,9 +32,6 @@ public class MemberService implements IMemberService{
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	TwilioService twilioService;
 	
 	@Autowired
 	JwtTokenProvider provider;
@@ -118,7 +114,7 @@ public class MemberService implements IMemberService{
 	
 	@Override
 	public String sendAuthCode(String phoneNumber) {
-		return twilioService.sendAuthCode(phoneNumber);
+		return null;
 	}
 	
 	@Override
