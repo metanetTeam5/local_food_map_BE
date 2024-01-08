@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.metanet.amatmu.config.security.JwtTokenProvider;
@@ -16,13 +17,18 @@ import com.metanet.amatmu.member.dto.MemberEmailProfileDto;
 import com.metanet.amatmu.member.dto.MemberInfoDto;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.dto.UpdateMemberInfoDto;
+import com.metanet.amatmu.member.dto.UpdateMemberPasswordDto;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
 import com.metanet.amatmu.member.exception.MemberErrorCode;
 import com.metanet.amatmu.member.exception.MemberException;
 import com.metanet.amatmu.member.model.Member;
+import com.metanet.amatmu.utils.PasswordGenerator;
 import com.metanet.amatmu.utils.S3Uploader;
+import com.metanet.amatmu.utils.SmsUtil;
+
 
 import jakarta.servlet.http.HttpServletRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 
 @Service
 public class MemberService implements IMemberService{
@@ -41,6 +47,12 @@ public class MemberService implements IMemberService{
 	
 	@Autowired
 	S3Uploader s3Uploader;
+	
+	@Autowired
+	SmsUtil sms;
+	
+	@Autowired
+	PasswordGenerator passwordGenerator;
 
 	@Override
 	public Long selectMaxMemberNo() {
@@ -113,21 +125,46 @@ public class MemberService implements IMemberService{
 	}
 	
 	@Override
-	public String sendAuthCode(String phoneNumber) {
-		return null;
+	public SingleMessageSentResponse sendAuthCode(String phoneNumber) {
+		if (!ObjectUtils.isEmpty(redisTemplate.opsForValue().get(phoneNumber))) {
+			redisTemplate.delete(phoneNumber);
+		}
+		
+		return sms.sendAuthCode(phoneNumber);
+	}
+	
+
+	@Override
+	public boolean checkAuthCode(String phoneNumber, String code) {
+		if (phoneNumber == null || code == null) {
+			return false;
+		}
+		
+		String authCode = redisTemplate.opsForValue().get(phoneNumber);
+		
+		if (!ObjectUtils.isEmpty(authCode) && code.equals(authCode)) {
+			redisTemplate.delete(phoneNumber);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
 	public Member selectMember(String email) {
-		return memberDao.selectMember(email);
+		Member member = memberDao.selectMember(email);
+		
+		checkMemberNull(member);
+		
+		return member;
 	}
 
 	@Override
 	public String memberLogin(MemberLoginDto loginDto) {
 		Member member = selectMember(loginDto.getEmail());
-		if (member == null) {
-			throw new MemberException(MemberErrorCode.EMAIL_NOT_EXISTS);
-		}
+		
+		checkMemberNull(member);
+		
 		if (!passwordEncoder.matches(loginDto.getPassword(), member.getPassword())) {
 			throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
 		}		
@@ -152,6 +189,8 @@ public class MemberService implements IMemberService{
 	@Override
 	public MemberInfoDto getMemberInfo(String email) {
 		Member member = selectMember(email);
+		checkMemberNull(member);
+		
 		MemberInfoDto memberInfo = new MemberInfoDto();
 		memberInfo.setEmail(member.getEmail());
 		memberInfo.setNickname(member.getNickname());
@@ -167,6 +206,8 @@ public class MemberService implements IMemberService{
 	@Override
 	public MemberInfoDto updateMemberInfo(String email, UpdateMemberInfoDto updateMemberInfoDto) {
 		Member member = selectMember(email);
+		checkMemberNull(member);
+		
 		if (!passwordEncoder.matches(updateMemberInfoDto.getPassword(), member.getPassword())) {
 			throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
 		}
@@ -194,7 +235,8 @@ public class MemberService implements IMemberService{
 	@Override
 	public String deleteMember(String email, String password) {
 		Member member = selectMember(email);
-		System.out.println(password);
+		checkMemberNull(member);
+		
 		if (!passwordEncoder.matches(password, member.getPassword())) {
 			throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
 		}
@@ -202,6 +244,34 @@ public class MemberService implements IMemberService{
 		memberDao.deleteMember(email);
 		
 		return "회원 탈퇴 완료";
+	}
+
+	@Override
+	public String findEmail(String phoneNumber) {
+		Member member = memberDao.selectMemberByPhoneNumber(phoneNumber);
+		checkMemberNull(member);
+		
+		return member.getEmail();
+	}
+
+	@Override
+	public SingleMessageSentResponse findPassword(String email, String phoneNumber) {
+		Member member = memberDao.selectMemberByPhoneNumber(phoneNumber);
+		checkMemberNull(member);
+		
+		if (!member.getEmail().equals(email)) {
+			throw new MemberException(MemberErrorCode.EMAIL_NOT_EXISTS);
+		}
+		
+		String temporaryPassword = passwordGenerator.generateTemporaryPassword();
+		
+		UpdateMemberPasswordDto updateMemberPasswordDto = new UpdateMemberPasswordDto();
+		updateMemberPasswordDto.setEmail(email);
+		updateMemberPasswordDto.setPassword(passwordEncoder.encode(temporaryPassword));
+		
+		memberDao.updateMemberPassword(updateMemberPasswordDto);
+		
+		return sms.sendPassword(phoneNumber, temporaryPassword);
 	}
 	
 	private void checkRegister(MemberRegisterDto member) {
@@ -229,6 +299,12 @@ public class MemberService implements IMemberService{
 		
 		if (checkPhoneNumberDuplicate(member.getPhoneNumber())) {
 			throw new MemberException(MemberErrorCode.PHONE_NUMBER_DUPLICATED);
+		}
+	}
+	
+	private void checkMemberNull(Member member) {
+		if (member == null) {
+			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
 		}
 	}
 }

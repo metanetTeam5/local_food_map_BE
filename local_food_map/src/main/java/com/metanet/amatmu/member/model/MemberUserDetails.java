@@ -9,8 +9,15 @@ public class MemberUserDetails extends User {
 
 	private static final long serialVersionUID = 1L;
 	
+	private Long memberId;
+	
 	public MemberUserDetails(String username, String password, 
-			Collection<? extends GrantedAuthority> authorities) {
+			Collection<? extends GrantedAuthority> authorities, Long memberId) {
 		super(username, password, authorities);
+		this.memberId = memberId;
+	}
+	
+	public Long getMemberId() {
+		return this.memberId;
 	}
 }

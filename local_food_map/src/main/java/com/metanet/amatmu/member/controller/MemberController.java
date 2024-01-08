@@ -3,7 +3,6 @@ package com.metanet.amatmu.member.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -23,9 +22,11 @@ import com.metanet.amatmu.member.dto.MemberLoginDto;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.dto.MemberRegisterResultDto;
 import com.metanet.amatmu.member.dto.UpdateMemberInfoDto;
+import com.metanet.amatmu.member.model.MemberUserDetails;
 import com.metanet.amatmu.member.service.IMemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 
 @RestController
 @RequestMapping("/member")
@@ -41,19 +42,19 @@ public class MemberController {
 				new MemberRegisterResultDto(memberDto.getEmail(), memberDto.getNickname(), memberDto.getName(), memberDto.getPhoneNumber()));
 	}
 	
-	@PostMapping("/profileImg")
+	@PostMapping("/profileimg")
 	public ResponseEntity<String> uploadMemberProfileImg(String email, MultipartFile file) {
 		memberService.uploadMemberProfileImg(email, file);
 		return ResponseEntity.ok("프로필사진 등록 완료");
 	}
 	
-	@PutMapping("profileImg/update")
-	public ResponseEntity<String> updateMemberProfileImg(@AuthenticationPrincipal User member, MultipartFile file) {
+	@PutMapping("profileimg/update")
+	public ResponseEntity<String> updateMemberProfileImg(@AuthenticationPrincipal MemberUserDetails member, MultipartFile file) {
 		memberService.uploadMemberProfileImg(member.getUsername(), file);
 		return ResponseEntity.ok("프로필사진 수정 완료");
 	}
 	
-	@GetMapping("/checkEmail")
+	@GetMapping("/checkemail")
 	public ResponseEntity<String> checkEmailDuplicate(@RequestParam String email) {
 		if (memberService.checkEmailDuplicate(email)) {
 			return ResponseEntity.status(409).body("중복된 이메일");
@@ -62,7 +63,7 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("/checkNickname")
+	@GetMapping("/checknickname")
 	public ResponseEntity<String> checkNicknameDuplicate(@RequestParam String nickname) {
 		if (memberService.checkNicknameDuplicate(nickname)) {
 			return ResponseEntity.status(409).body("중복된 닉네임");
@@ -71,7 +72,7 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("/checkPhoneNumber")
+	@GetMapping("/checkphoneNumber")
 	public ResponseEntity<String> checkPhoneNumberDuplicate(@RequestParam String phoneNumber) {
 		if (memberService.checkPhoneNumberDuplicate(phoneNumber)) {
 			return ResponseEntity.status(409).body("중복된 전화 번호");
@@ -80,9 +81,18 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("/sendAuthCode/{phoneNumber}")
-	public ResponseEntity<String> sendAuthCode(@PathVariable String phoneNumber) {
+	@GetMapping("/sendauthcode/{phoneNumber}")
+	public ResponseEntity<SingleMessageSentResponse> sendAuthCode(@PathVariable String phoneNumber) {
 		return ResponseEntity.ok(memberService.sendAuthCode(phoneNumber));
+	}
+	
+	@GetMapping("/checkauthcode")
+	public ResponseEntity<String> checkAuthCode(@RequestParam String phoneNumber, @RequestParam String code) {
+		if (memberService.checkAuthCode(phoneNumber, code)) {
+			return ResponseEntity.ok("인증번호 일치");
+		} else {
+			return ResponseEntity.status(400).body("인증번호 불일치");
+		}
 	}
 
 	@PostMapping("/login")
@@ -96,7 +106,8 @@ public class MemberController {
 	}
 	
 	@GetMapping("/info")
-	public ResponseEntity<MemberInfoDto> getMemberInfo(@AuthenticationPrincipal User member) {
+	public ResponseEntity<MemberInfoDto> getMemberInfo(@AuthenticationPrincipal MemberUserDetails member) {
+		System.out.println(member.getMemberId());
 		return ResponseEntity.ok(memberService.getMemberInfo(member.getUsername()));
 	}
 	
@@ -108,7 +119,17 @@ public class MemberController {
 	}
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteMember(@AuthenticationPrincipal User member, @RequestBody Map<String, String> password) {
+	public ResponseEntity<String> deleteMember(@AuthenticationPrincipal MemberUserDetails member, @RequestBody Map<String, String> password) {
 		return ResponseEntity.ok(memberService.deleteMember(member.getUsername(), password.get("password")));
+	}
+	
+	@GetMapping("/find/email")
+	public ResponseEntity<String> findEmail(@RequestParam String phoneNumber) {
+		return ResponseEntity.ok(memberService.findEmail(phoneNumber));
+	}
+	
+	@GetMapping("/find/password")
+	public ResponseEntity<SingleMessageSentResponse> sendAuthCode(@RequestParam String email, @RequestParam String phoneNumber) {
+		return ResponseEntity.ok(memberService.findPassword(email, phoneNumber));
 	}
 }

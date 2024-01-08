@@ -18,7 +18,8 @@ public enum MemberErrorCode implements Code{
 	EMAIL_NOT_EXISTS(HttpStatus.BAD_REQUEST, "이메일이 존재하지 않습니다."),
 	WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 	EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "토큰이 만료되었습니다."),
-	UPLOAD_PROFILEIMG_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "회원가입 실패");
+	UPLOAD_PROFILEIMG_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "회원가입 실패"),
+	MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "회원을 찾을 수 없습니다.");
 
 	private final HttpStatus status;
 	private final String msg;

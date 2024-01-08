@@ -23,14 +23,15 @@ public class SecurityConfig {
 		http
 		.csrf((csrf) -> csrf.disable())
 		.authorizeHttpRequests((authorize) -> authorize
-			.requestMatchers("/member/register", "/member/login", "/member/checkEmail", "/member/checkNickname",
-					"/member/checkPhoneNumber", "/member/profileImg").permitAll()
+			.requestMatchers("/member/register", "/member/login", "/member/checkemail", "/member/checknickname",
+					"/member/checkphonenumber", "/member/profileimg", "/member/sendauthcode/**", "/member/checkauthcode",
+					"/member/find/**").permitAll()
 			.requestMatchers("/member/logout", "member/delete").authenticated()
 			.requestMatchers("member/info", "member/info/update").hasRole("USER")
 		)
 		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate),
 	            UsernamePasswordAuthenticationFilter.class);
 
-	return http.build();
+		return http.build();
 	}
 }

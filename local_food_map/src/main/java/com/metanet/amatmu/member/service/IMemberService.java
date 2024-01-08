@@ -9,6 +9,7 @@ import com.metanet.amatmu.member.dto.MemberLoginDto;
 import com.metanet.amatmu.member.model.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 
 public interface IMemberService {
 
@@ -18,11 +19,14 @@ public interface IMemberService {
 	boolean checkEmailDuplicate(String email);
 	boolean checkNicknameDuplicate(String nickname);
 	boolean checkPhoneNumberDuplicate(String phoneNumber);
-	String sendAuthCode(String phoneNumber);
+	SingleMessageSentResponse sendAuthCode(String phoneNumber);
+	boolean checkAuthCode(String phoneNumber, String code);
 	Member selectMember(String email);
 	String memberLogin(MemberLoginDto loginDto);
 	String memberLogout(HttpServletRequest request);
 	MemberInfoDto getMemberInfo(String email);
 	MemberInfoDto updateMemberInfo(String email, UpdateMemberInfoDto updateMemberInfoDto);
 	String deleteMember(String email, String password);
+	String findEmail(String phoneNumber);
+	SingleMessageSentResponse findPassword(String email, String phoneNumber);
 }
