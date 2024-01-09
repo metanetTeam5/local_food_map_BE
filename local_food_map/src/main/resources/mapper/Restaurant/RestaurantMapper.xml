@@ -2,24 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.metanet.amatmu.favorite.dao.IFavoriteRepository">
+<mapper namespace="com.metanet.amatmu.restaurant.dao.IRestaurantRepository">
 
-	<insert id="insertFavorite" parameterType="com.metanet.amatmu.favorite.model.Favorite">
+	<!-- <insert id="insertFavorite" parameterType="com.metanet.amatmu.favorite.model.Favorite">
 	<![CDATA[
 		INSERT INTO 
 			favorite (favo_id, memb_id, rest_id) 
 		VALUES 
 			(#{favoId}, #{membId}, #{restId})
 	]]>
-	</insert>
+	</insert> -->
 	
-	<select id="selectMaxFavoriteId" parameterType="long" resultType="long">
+	<!-- <select id="selectMaxFavoriteId" parameterType="long" resultType="long">
 	<![CDATA[
 		SELECT NVL(MAX(favo_id),0) AS "favoId"
 		FROM favorite
 	]]>
 	</select>
-	
+	 -->
 	
 
 <!-- 	<select id="selectFavoriteByRestId" parameterType="Long" resultMap="favoriteResultMap">
@@ -34,19 +34,24 @@
 	]]>
 	</select> -->
 	
-	<select id="selectFavoriteByMembId" parameterType="Long" resultMap="favoriteResultMap">
+	<select id="selectRestaurantByRestId" parameterType="Long" resultMap="RestaurantResultMap">
 		<![CDATA[
 		SELECT 			
-			favo_id,
-			memb_id,
-			rest_id
+			rest_id,
+			rest_name,
+			rest_location_x,
+			rest_location_y,
+			rest_phone_number,
+			rest_open_time,
+			rest_close_time,
+			rest_create_date
 		FROM 
-			favorite
-		WHERE memb_id=#{membId}
+			Restaurant
+		WHERE rest_id=#{restId}
 		]]>
 	</select>
 	
-	<select id="selectFavoriteByRestIdAndMembId" parameterType="com.metanet.amatmu.favorite.model.FavoriteDto" resultType="com.metanet.amatmu.favorite.model.Favorite">
+	<!-- <select id="selectFavoriteByRestIdAndMembId" parameterType="com.metanet.amatmu.favorite.model.FavoriteDto" resultType="com.metanet.amatmu.favorite.model.Favorite">
 		<![CDATA[
 			SELECT 			
 				favo_id as favoId,
@@ -57,8 +62,9 @@
 			WHERE rest_id=#{restId} and memb_id=#{membId}
 		]]>
 	</select>
-	
-	<delete id="deleteFavorite" parameterType="com.metanet.amatmu.favorite.model.Favorite">
+	 -->
+	 
+<!-- 	<delete id="deleteFavorite" parameterType="com.metanet.amatmu.favorite.model.Favorite">
 		<![CDATA[
 			DELETE FROM
 				favorite
@@ -67,15 +73,24 @@
 				memb_id=#{membId}
 		]]>
 	</delete>
+	-->
 	
-	
-	<resultMap id="favoriteResultMap" type="com.metanet.amatmu.favorite.model.Favorite">
-        <id property="favoId" column="favo_id"/>
-        <result property="membId" column="memb_id"/>
-        <result property="restId" column="rest_id"/>
+	<resultMap id="RestaurantResultMap" type="com.metanet.amatmu.restaurant.model.Restaurant">
+        <id property="restId" column="rest_id"/>
+        <result property="restName" column="rest_name"/>
+        <result property="restLocationX" column="rest_location_x"/>
+        <result property="restLocationY" column="rest_location_y"/>
+        <result property="restPhoneNumber" column="rest_phone_number"/>
+        <result property="restOpenTime" column="rest_open_time"/>
+        <result property="restCloseTime" column="rest_close_time"/>
+        <result property="restCreateDate" column="rest_create_date"/>
     </resultMap>
+     
     
-    
+
+
+
+
 
 	<!-- <select id="selectGrade" parameterType="Long" resultType="com.example.demo.grade.model.GradeVO">
 	<![CDATA[

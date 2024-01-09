@@ -6,10 +6,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import com.metanet.amatmu.exception.QueryFailedException;
 import com.metanet.amatmu.exception.UpdateFailedException;
+import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.notice.dao.INoticeRepository;
 import com.metanet.amatmu.notice.model.Notice;
 import com.metanet.amatmu.notice.model.NoticeDto;
@@ -19,17 +21,20 @@ import com.metanet.amatmu.notice.model.NoticeDto;
 @Service
 public class NoticeService implements INoticeService{
 	private INoticeRepository	noticeRepository;
+	private IMemberRepository	memberRepository;
 	
 	@Autowired
-	public NoticeService(INoticeRepository noticeRepository) {
+	public NoticeService(INoticeRepository noticeRepository, IMemberRepository memberRepository) {
 		this.noticeRepository = noticeRepository;
+		this.memberRepository = memberRepository;
 	}
 	
 	@Override
-	public Notice	insertNotice(NoticeDto noticeDto) {
+	public Notice	insertNotice(User member, NoticeDto noticeDto) {
+		//User member를 통해 membId 가져오
 		//dto로 받은것 엔티티로 만들어서 repository에 저장해주고, 엔티티 반환 
 		//변환시에 id, date 등등 추가적인 서비스 로직 적용 필요
-		
+		Long	membId = memberRepository.getMemberIdByEmail(member.getUsername());
 		Notice	notice = new Notice(
 				noticeRepository.selectMaxNoticeId() + 1,
 				noticeDto.getNotiTitle(),
@@ -37,8 +42,10 @@ public class NoticeService implements INoticeService{
 				LocalDateTime.now(),
 				LocalDateTime.now(),
 				0,
-				noticeDto.getMembId()
+//				noticeDto.getMembId()
+				membId
 				);
+		
 		noticeRepository.insertNotice(notice);
 		return notice;
 	}

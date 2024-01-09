@@ -19,14 +19,25 @@ public class SecurityConfig {
 	private final RedisTemplate<String, String> redisTemplate;
 
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {	
+
 		http
 		.csrf((csrf) -> csrf.disable())
 		.authorizeHttpRequests((authorize) -> authorize
 			.requestMatchers("/member/register", "/member/login", "/member/checkEmail", "/member/checkNickname",
 					"/member/checkPhoneNumber", "/member/profileImg").permitAll()
+//			.requestMatchers("/admin/notice", "/admin/notice/{noticeId}").permitAll()
+//			.requestMatchers("/restaurant/favorite", "/restaurant/favorite/{restaurantId}", "/restaurant/favorite/list").permitAll()
 			.requestMatchers("/member/logout", "member/delete").authenticated()
 			.requestMatchers("member/info", "member/info/update").hasRole("USER")
+//			.requestMatchers("/restaurant/favorite/**", "/restaurant/favorite/list", "/restaurant/favorite/{restaurantId}").hasRole("USER")
+			.requestMatchers("/restaurant/favorite").hasRole("USER")
+			.requestMatchers("/restaurant/favorite/**","/restaurant/favorites/**").hasRole("USER")
+
+			.requestMatchers("/admin/notice", "/admin/notice/{noticeId}").hasRole("ADMIN")
+			.requestMatchers("/**").permitAll()
+			
+			
 		)
 		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate),
 	            UsernamePasswordAuthenticationFilter.class);

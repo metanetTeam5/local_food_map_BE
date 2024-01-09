@@ -14,9 +14,10 @@ import com.metanet.amatmu.favorite.model.FavoriteDto;
 @Mapper
 public interface IFavoriteRepository {
 	int				insertFavorite(Favorite favorite);
-	List<Favorite>	selectFavoriteByMemberId(Long membId);
-	List<Favorite>	selectFavoriteByRestId(Long restId);
+	List<Favorite>	selectFavoriteByMembId(Long membId);
+//	List<Favorite>	selectFavoriteByRestId(Long restId);
 	int				deleteFavorite(Favorite favorite);
 	Favorite		selectFavoriteByRestIdAndMembId(FavoriteDto favoriteDto);
+//	Favorite		selectFavoriteByRestIdAndMembId(Long RestId, Long MembId);
 	Long			selectMaxFavoriteId();
 }
