@@ -37,7 +37,7 @@ public class MemberController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<MemberRegisterResultDto> registerMember(@RequestBody MemberRegisterDto memberDto) {
-		memberService.registerMember(memberDto);
+		memberService.registerMember(memberDto, "ROLE_USER");
 		return ResponseEntity.status(201).body(
 				new MemberRegisterResultDto(memberDto.getEmail(), memberDto.getNickname(), memberDto.getName(), memberDto.getPhoneNumber()));
 	}

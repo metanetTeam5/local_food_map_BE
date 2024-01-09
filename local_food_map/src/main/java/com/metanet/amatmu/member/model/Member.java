@@ -23,5 +23,4 @@ public class Member {
 	private Date createDate;
 	private Date updateDate;
 	private String role;
-	private Character isDeleted;
 }
