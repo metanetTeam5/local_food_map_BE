@@ -34,8 +34,7 @@ public class NoticeService implements INoticeService{
 		//User member를 통해 membId 가져오
 		//dto로 받은것 엔티티로 만들어서 repository에 저장해주고, 엔티티 반환 
 		//변환시에 id, date 등등 추가적인 서비스 로직 적용 필요
-//		Long	membId = memberRepository.getMemberIdByEmail(member.getUsername());
-		Long		membId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		Long	membId = memberRepository.getMemberIdByEmail(member.getUsername());
 		Notice	notice = new Notice(
 				noticeRepository.selectMaxNoticeId() + 1,
 				noticeDto.getNotiTitle(),

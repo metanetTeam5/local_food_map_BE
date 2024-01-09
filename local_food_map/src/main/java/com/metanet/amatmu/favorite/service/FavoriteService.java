@@ -12,7 +12,6 @@ import com.metanet.amatmu.favorite.dao.IFavoriteRepository;
 import com.metanet.amatmu.favorite.model.Favorite;
 import com.metanet.amatmu.favorite.model.FavoriteDto;
 import com.metanet.amatmu.member.dao.IMemberRepository;
-import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.restaurant.dao.IRestaurantRepository;
 import com.metanet.amatmu.restaurant.model.Restaurant;
 
@@ -32,8 +31,7 @@ public class FavoriteService implements IFavoriteService{
 	
 	@Override
 	public Favorite		insertFavorite(User member, FavoriteDto favoriteDto) {
-//		Long		memberId = memberRepository.getMemberIdByEmail(member.getUsername());
-		Long		memberId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		Long		memberId = memberRepository.getMemberIdByEmail(member.getUsername());
 		favoriteDto.setMembId(memberId);
 		Favorite	favorite = favoriteRepository.selectFavoriteByRestIdAndMembId(favoriteDto);
 		
@@ -66,8 +64,7 @@ public class FavoriteService implements IFavoriteService{
 	@Override
 	public Favorite		deleteFavorite(User member, FavoriteDto favoriteDto) {
 //		Favorite	favorite = favoriteRepository.selectFavoriteByRestIdAndMembId(favoriteDto);
-//		Long		memberId = memberRepository.getMemberIdByEmail(member.getUsername());
-		Long		memberId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		Long		memberId = memberRepository.getMemberIdByEmail(member.getUsername());
 		favoriteDto.setMembId(memberId);
 		Favorite	favorite = favoriteRepository.selectFavoriteByRestIdAndMembId(favoriteDto);
 		int			queryStatus = 0;
@@ -85,8 +82,7 @@ public class FavoriteService implements IFavoriteService{
 	
 	@Override
 	public boolean		selectFavoriteByRestIdAndMembId(User member, Long restId) {
-//		Long		memberId = memberRepository.getMemberIdByEmail(member.getUsername());
-		Long		memberId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		Long		memberId = memberRepository.getMemberIdByEmail(member.getUsername());
 		FavoriteDto	favoriteDto = new FavoriteDto(memberId, restId);
 		Favorite	favorite = favoriteRepository.selectFavoriteByRestIdAndMembId(favoriteDto);
 		
@@ -100,8 +96,7 @@ public class FavoriteService implements IFavoriteService{
 	@Override
 	public List<Restaurant>	selectFavoriteRestaurants(User member) {
 		//회원이메일 -> 회원아이디 -> 회원의favorite리스트 -> 가게아이디리스트 -> 가게정보리스트 
-//		Long				memberId = memberRepository.getMemberIdByEmail(member.getUsername());
-		Long		memberId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		Long				memberId = memberRepository.getMemberIdByEmail(member.getUsername());
 		List<Favorite>		favoriteList = favoriteRepository.selectFavoriteByMembId(memberId);
 		List<Restaurant>	restaurantList = new ArrayList<>();
 		

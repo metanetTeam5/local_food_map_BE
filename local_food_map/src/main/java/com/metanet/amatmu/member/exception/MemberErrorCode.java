@@ -1,12 +1,13 @@
 package com.metanet.amatmu.member.exception;
 
 import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum MemberErrorCode implements Code {
+public enum MemberErrorCode implements Code{
 
 	REGISTER_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "회원가입 실패"),
 	INVALID_REGISTER(HttpStatus.BAD_REQUEST, "회원가입 양식 오류"),
