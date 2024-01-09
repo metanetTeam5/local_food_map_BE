@@ -114,4 +114,18 @@
 			memb_email=#{email}
 	]]>
 	</update>
+	
+	<select id="getMemberIdByEmail" parameterType="string" resultType="long">
+	<![CDATA[
+		SELECT
+			memb_id as membId
+		FROM
+			member
+		WHERE
+			memb_email=#{email}
+		AND
+			memb_is_deleted = 'N'
+	]]>
+	</select>
+	
 </mapper>
