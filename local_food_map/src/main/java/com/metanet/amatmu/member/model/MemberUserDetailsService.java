@@ -39,7 +39,7 @@ public class MemberUserDetailsService implements UserDetailsService {
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roleArr);
 
 		return new MemberUserDetails(memberInfo.getEmail(), 
-				memberInfo.getPassword(), authorities);
+				memberInfo.getPassword(), authorities, memberInfo.getMemberId());
 	}
 
 }
