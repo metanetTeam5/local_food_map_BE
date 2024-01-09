@@ -25,12 +25,12 @@ public class RestaurantController {
 		this.restaurantService = restaurantService;
 	}
 	
-	@PostMapping("/restaurant/register")
-	public ResponseEntity<Restaurant>	createRestaurant(@AuthenticationPrincipal User member, @RequestBody RestaurantDto restaurantDto) {
-		Restaurant restaurant = restaurantService.insertRestaurant(member, restaurantDto);
-		
-		return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
-	}
+//	@PostMapping("/restaurant/register")
+//	public ResponseEntity<Restaurant>	createRestaurant(@AuthenticationPrincipal User member, @RequestBody RestaurantDto restaurantDto) {
+//		Restaurant restaurant = restaurantService.insertRestaurant(member, restaurantDto);
+//		
+//		return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+//	}
 	
 	@GetMapping("/restaurant/{restId}")
 	public ResponseEntity<Restaurant>	readRestaurantById(@PathVariable Long restId) {
