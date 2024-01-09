@@ -14,7 +14,7 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 public interface IMemberService {
 
 	Long selectMaxMemberNo();
-	void registerMember(MemberRegisterDto memberDto);
+	void registerMember(MemberRegisterDto memberDto, String role);
 	void uploadMemberProfileImg(String email, MultipartFile file);
 	boolean checkEmailDuplicate(String email);
 	boolean checkNicknameDuplicate(String nickname);

@@ -60,7 +60,7 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public void registerMember(MemberRegisterDto memberDto) {
+	public void registerMember(MemberRegisterDto memberDto, String role) {
 		checkRegister(memberDto);
 		
 		Member member = new Member();
@@ -80,8 +80,7 @@ public class MemberService implements IMemberService{
 		member.setBirthDate(memberDto.getBirthDate());
 		member.setPhoneNumber(memberDto.getPhoneNumber());
 
-		member.setRole("ROLE_USER");
-		member.setIsDeleted('N');
+		member.setRole(role);
 		
 		try {
 			memberDao.registerMember(member);

@@ -1,6 +1,5 @@
 package com.metanet.amatmu.member.dto;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
