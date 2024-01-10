@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.metanet.amatmu.businessman.dao.IBusinessmanRepository">
+	
+	<resultMap id="BusinessmanResultMap" type="com.metanet.amatmu.businessman.model.Businessman">
+    	<result property="businessmanId" column="bman_id"/>
+    	<result property="memberId" column="memb_id"/>
+    	<result property="restaurantId" column="rest_id"/>
+    	<result property="companyName" column="bman_company_name"/>
+    	<result property="licenseNumber" column="bman_license_number"/>
+    	<result property="registration" column="bman_registration"/>
+    	<result property="report" column="bman_report"/>
+   	 	<result property="bankbook" column="bman_bankbook"/>
+   	 	<result property="createDate" column="bman_create_date"/>
+   	 	<result property="grantDate" column="bman_grant_date"/>
+   	 	<result property="account" column="bman_account"/>
+   	 	<result property="status" column="bman_status"/>
+	</resultMap>	
+
+	<select id="selectMaxBmNo" parameterType="long"
+		resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(bman_id),0) AS "bmNo"
+		FROM Businessman
+	]]>
+	</select>
+
+	<insert id="registerBm"
+		parameterType="com.metanet.amatmu.businessman.model.Businessman">
+	<![CDATA[
+		INSERT INTO 
+			businessman (bman_id, memb_id, bman_company_name, bman_license_number,
+			bman_registration, bman_report, bman_bankbook, bman_account, bman_status) 
+		VALUES 
+			(#{businessmanId}, #{memberId}, #{companyName}, #{licenseNumber},
+			#{registration}, #{report}, #{bankbook}, #{account}, #{status})
+	]]>
+	</insert>
+	
+	<select id="checkRestaurantDuplicate" parameterType="long"
+		resultType="Integer">
+	<![CDATA[
+		SELECT count(*)
+		FROM businessman
+		WHERE rest_id = #{restaurantId}
+	]]>
+	</select>
+	
+	<select id="checkLicenseNumberDuplicate" parameterType="String"
+		resultType="Integer">
+	<![CDATA[
+		SELECT count(*)
+		FROM businessman
+		WHERE bman_license_number = #{licenseNumber}
+	]]>
+	</select>
+	
+	<select id="getBmListByMemberId" parameterType="long"
+		resultMap="BusinessmanResultMap">
+	<![CDATA[
+		SELECT 
+			*
+		FROM businessman
+		WHERE memb_id = #{memberId}
+	]]>
+	</select>
+	
+	<select id="getBmByBmId" parameterType="long"
+		resultType="com.metanet.amatmu.businessman.model.Businessman">
+	<![CDATA[
+		SELECT 
+			bman_id as businessmanId, memb_id as memberId, rest_id as restaurantId,
+			bman_company_name as companyName, bman_license_number as licenseNumber,
+			bman_registration as registration, bman_report as report, bman_bankbook as bankbook,
+			bman_create_date as createDate, bman_grant_date as grantDate, bman_account as account,
+			bman_status as status
+		FROM businessman
+		WHERE bman_id = #{businessmanId}
+	]]>
+	</select>
+	
+	<update id="updateBmInfo" parameterType="com.metanet.amatmu.businessman.dto.UpdateBmInfoDto">
+	<![CDATA[
+		UPDATE businessman
+		SET 
+			bman_license_number=#{licenseNumber}, bman_company_name=#{companyName}, 
+			bman_account=#{account}
+		WHERE 
+			bman_id=#{businessmanId}
+	]]>
+	</update>
+</mapper>
