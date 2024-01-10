@@ -14,6 +14,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class RestaurantDto {
+	//로그인한 멤버 아이디로 그 사람의 가게 리스트를 뿌려주고 그중에 고르게 하는식으로 id 값을 가져와야함. 
+	private Long	businessmanId;
+	
 //	private Long	restId;
 	private String	restName;
 	private double	restLocationX;
