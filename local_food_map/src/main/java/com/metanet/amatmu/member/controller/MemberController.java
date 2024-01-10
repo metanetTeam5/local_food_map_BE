@@ -107,7 +107,6 @@ public class MemberController {
 	
 	@GetMapping("/info")
 	public ResponseEntity<MemberInfoDto> getMemberInfo(@AuthenticationPrincipal MemberUserDetails member) {
-		System.out.println(member.getMemberId());
 		return ResponseEntity.ok(memberService.getMemberInfo(member.getUsername()));
 	}
 	
