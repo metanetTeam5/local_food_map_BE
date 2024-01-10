@@ -306,4 +306,10 @@ public class MemberService implements IMemberService{
 			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
 		}
 	}
+
+	@Override
+	public Member searchMemberByKakaoUserphonenumber(String phoneNumber) {
+		
+		return memberDao.searchMemberByKakaoUserphonenumber(phoneNumber);
+	}
 }

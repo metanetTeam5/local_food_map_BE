@@ -29,4 +29,6 @@ public interface IMemberService {
 	String deleteMember(String email, String password);
 	String findEmail(String phoneNumber);
 	SingleMessageSentResponse findPassword(String email, String phoneNumber);
+	Member searchMemberByKakaoUserphonenumber(String phoneNumber);
+
 }

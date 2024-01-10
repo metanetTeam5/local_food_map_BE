@@ -35,6 +35,7 @@ public class SecurityConfig {
 			.requestMatchers("/admin/notice/**").hasRole("ADMIN")
 
 			.requestMatchers("/bm/register", "/bm/images", "/bm/login").permitAll()
+			.requestMatchers("kakao/**").permitAll()
 			.requestMatchers("/bm/info/**").hasRole("BMAN")
 
 		)
