@@ -9,4 +9,9 @@ import com.metanet.amatmu.restaurant.model.Restaurant;
 @Mapper
 public interface IRestaurantRepository {
 	Restaurant	selectRestaurantByRestId(Long restId);
+	
+	Long		selectMaxRestaurantId();
+	int			insertRestaurant(Restaurant restaurant);
+	int			deleteRestaurant(Long restId);
+	
 }

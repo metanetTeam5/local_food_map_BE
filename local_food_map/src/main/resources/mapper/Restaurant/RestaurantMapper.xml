@@ -4,22 +4,37 @@
 
 <mapper namespace="com.metanet.amatmu.restaurant.dao.IRestaurantRepository">
 
-	<!-- <insert id="insertFavorite" parameterType="com.metanet.amatmu.favorite.model.Favorite">
+	<insert id="insertRestaurant" parameterType="com.metanet.amatmu.restaurant.model.Restaurant">
 	<![CDATA[
 		INSERT INTO 
-			favorite (favo_id, memb_id, rest_id) 
-		VALUES 
-			(#{favoId}, #{membId}, #{restId})
+			restaurant (
+				rest_id,
+				rest_name,
+				rest_location_x,
+				rest_location_y,
+				rest_location_name,
+				rest_keyword,
+				rest_phone_number,
+				rest_open_time,
+				rest_close_time,
+				rest_create_date
+				) 
+		VALUES (
+			#{restId},
+			#{restName},
+			#{restLocation_x},
+			#{restLocation_y},
+			#{restLocation_name},
+			#{restKeyword},
+			#{restPhone_number},
+			#{restOpen_time},
+			#{restClose_time},
+			#{restCreate_date}
+		) 
 	]]>
-	</insert> -->
+	</insert>
 	
-	<!-- <select id="selectMaxFavoriteId" parameterType="long" resultType="long">
-	<![CDATA[
-		SELECT NVL(MAX(favo_id),0) AS "favoId"
-		FROM favorite
-	]]>
-	</select>
-	 -->
+
 	
 
 <!-- 	<select id="selectFavoriteByRestId" parameterType="Long" resultMap="favoriteResultMap">
@@ -41,6 +56,8 @@
 			rest_name,
 			rest_location_x,
 			rest_location_y,
+			rest_location_name,
+			rest_keyword,
 			rest_phone_number,
 			rest_open_time,
 			rest_close_time,
@@ -50,6 +67,16 @@
 		WHERE rest_id=#{restId}
 		]]>
 	</select>
+	
+	
+	
+	<select id="selectMaxRestaurantId" parameterType="long" resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(favo_id),0) AS "restId"
+		FROM restaurant
+	]]>
+	</select>
+	
 	
 	<!-- <select id="selectFavoriteByRestIdAndMembId" parameterType="com.metanet.amatmu.favorite.model.FavoriteDto" resultType="com.metanet.amatmu.favorite.model.Favorite">
 		<![CDATA[
@@ -64,85 +91,27 @@
 	</select>
 	 -->
 	 
-<!-- 	<delete id="deleteFavorite" parameterType="com.metanet.amatmu.favorite.model.Favorite">
+ 	<delete id="deleteRestaurant" parameterType="long">
 		<![CDATA[
 			DELETE FROM
-				favorite
+				restaurant
 			WHERE
-				rest_id=#{restId} and
-				memb_id=#{membId}
+				rest_id=#{restId}
 		]]>
 	</delete>
-	-->
+	
 	
 	<resultMap id="RestaurantResultMap" type="com.metanet.amatmu.restaurant.model.Restaurant">
         <id property="restId" column="rest_id"/>
         <result property="restName" column="rest_name"/>
         <result property="restLocationX" column="rest_location_x"/>
         <result property="restLocationY" column="rest_location_y"/>
+        <result property="restLocationName" column="rest_location_name"/>
+        <result property="restKeyword" column="rest_keyword"/>
         <result property="restPhoneNumber" column="rest_phone_number"/>
         <result property="restOpenTime" column="rest_open_time"/>
         <result property="restCloseTime" column="rest_close_time"/>
         <result property="restCreateDate" column="rest_create_date"/>
     </resultMap>
-     
-    
 
-
-
-
-
-	<!-- <select id="selectGrade" parameterType="Long" resultType="com.example.demo.grade.model.GradeVO">
-	<![CDATA[
-		SELECT 
-			grade_id as gradeId,
-			grade_name as gradeName,
-			grade_order as gradeOrder
-		FROM 
-			grade 
-		WHERE grade_id=#{gradeId}
-	]]>
-	</select>
-	
-	
-    <select id="selectAllGrade" resultMap="gradeResultMap">
-        <![CDATA[
-        SELECT
-            grade_id,
-            grade_name,
-            grade_order
-        FROM
-            grade
-        ]]>
-    </select>
-    
-    <update id="updateGrade" parameterType="com.example.demo.grade.model.GradeVO" >
-		<![CDATA[
-			UPDATE GRADE
-			SET 
-				grade_name=#{gradeName}, 
-				grade_order=#{gradeOrder} 
-			WHERE 
-				grade_id=#{gradeId} 
-		]]>
-	</update>
-	
-	
-	<delete id="deleteGrade" parameterType="com.example.demo.grade.model.GradeVO">
-		<![CDATA[
-			DELETE FROM
-				GRADE 
-			WHERE
-				grade_id=#{gradeId}
-		]]>
-	</delete>
-	
-
-
-    <resultMap id="gradeResultMap" type="com.example.demo.grade.model.GradeVO">
-        <id property="gradeId" column="grade_id"/>
-        <result property="gradeName" column="grade_name"/>
-        <result property="gradeOrder" column="grade_order"/>
-    </resultMap>
-	 -->
 </mapper>

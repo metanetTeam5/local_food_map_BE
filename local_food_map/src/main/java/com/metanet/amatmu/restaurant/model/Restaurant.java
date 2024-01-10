@@ -18,6 +18,8 @@ public class Restaurant {
 	private String	restName;
 	private double	restLocationX;
 	private double	restLocationY;
+	private String	restLocationName;
+	private String	restKeyword;
 	private String	restPhoneNumber;
 	private String	restOpenTime;
 	private String	restCloseTime;

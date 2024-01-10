@@ -42,13 +42,13 @@ public class NoticeController {
 		
 	}
 	
-	@GetMapping("/admin/notice")
+	@GetMapping("/notice")
 	public ResponseEntity<List<Notice>> readAllNotice() {
 		List<Notice> list = noticeService.selectAllNotice();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@GetMapping("/admin/notice/{noticeId}")
+	@GetMapping("/notice/{noticeId}")
 	public ResponseEntity<Notice> readNoticEntityById(@PathVariable Long noticeId) {
 		Notice	notice = noticeService.selectNoticeById(noticeId);
 		return new ResponseEntity<>(notice, HttpStatus.OK);

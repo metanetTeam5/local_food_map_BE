@@ -5,13 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.google.gson.internal.NonNullElementWrapperList;
 import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.restaurant.model.RestaurantDto;
 import com.metanet.amatmu.restaurant.service.IRestaurantService;
@@ -25,10 +28,15 @@ public class RestaurantController {
 		this.restaurantService = restaurantService;
 	}
 	
-	@PostMapping("/restaurant/register")
+//	@PostMapping("/restaurant/register")
+//	public ResponseEntity<Restaurant>	createRestaurant(@AuthenticationPrincipal User member, @RequestBody RestaurantDto restaurantDto) {
+//		Restaurant restaurant = restaurantService.insertRestaurant(member, restaurantDto);
+//		
+//		return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+//	}
+	@PutMapping("/restaurant/register")
 	public ResponseEntity<Restaurant>	createRestaurant(@AuthenticationPrincipal User member, @RequestBody RestaurantDto restaurantDto) {
 		Restaurant restaurant = restaurantService.insertRestaurant(member, restaurantDto);
-		
 		return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
 	}
 	
@@ -37,6 +45,13 @@ public class RestaurantController {
 		Restaurant	restaurant = restaurantService.selectRestaurantById(restId);
 		
 		return new ResponseEntity<>(restaurant, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/restaurant/delete/{restId}")
+	public ResponseEntity<Restaurant>	deleteRestaurant(@PathVariable Long restId) {
+		Restaurant restaurant = restaurantService.deleteRestaurant(restId);
+		
+		return new ResponseEntity<>(restaurant, HttpStatus.NO_CONTENT);
 	}
 	
 
