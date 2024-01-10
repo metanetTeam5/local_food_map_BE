@@ -28,8 +28,15 @@ public class SecurityConfig {
 					"/member/find/**").permitAll()
 			.requestMatchers("/member/logout", "member/delete").authenticated()
 			.requestMatchers("member/info", "member/info/update").hasRole("USER")
+			.requestMatchers("/restaurant/favorite/**").hasRole("USER")
+			.requestMatchers("/restaurant/favorites/**").hasRole("USER")
+			.requestMatchers("/restaurant/**").hasRole("USER")
+			.requestMatchers("/notice/**").hasRole("USER")
+			.requestMatchers("/admin/notice/**").hasRole("ADMIN")
+
 			.requestMatchers("/bm/register", "/bm/images", "/bm/login").permitAll()
 			.requestMatchers("/bm/info/**").hasRole("BMAN")
+
 		)
 		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate),
 	            UsernamePasswordAuthenticationFilter.class);
