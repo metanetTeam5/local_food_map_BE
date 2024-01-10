@@ -92,4 +92,26 @@
 			bman_id=#{businessmanId}
 	]]>
 	</update>
+	
+	<update id="updateBmRequested" parameterType="com.metanet.amatmu.restaurant.model.UpdateRegisterRestaurantDto">
+	<![CDATA[
+		UPDATE businessman
+		SET 
+			rest_id=#{restId},
+			bman_status='REQUEST'
+		WHERE 
+			bman_id=#{businessmanId}
+	]]>
+	</update>
+	
+	<delete id="deleteBmByRestId" parameterType="long">
+		<![CDATA[
+			DELETE FROM
+				businessman
+			WHERE
+				rest_id=#{restId}
+		]]>
+	</delete>
+	
+	
 </mapper>

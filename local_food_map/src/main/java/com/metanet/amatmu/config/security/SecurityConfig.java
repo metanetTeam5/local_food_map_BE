@@ -28,11 +28,18 @@ public class SecurityConfig {
 					"/member/find/**").permitAll()
 			.requestMatchers("/member/logout", "member/delete").authenticated()
 			.requestMatchers("member/info", "member/info/update").hasRole("USER")
+			
 			.requestMatchers("/restaurant/favorite/**").hasRole("USER")
 			.requestMatchers("/restaurant/favorites/**").hasRole("USER")
+			.requestMatchers("/restaurant/register/**").hasRole("BMAN")
+			.requestMatchers("/restaurant/delete/**").hasRole("ADMIN")
 			.requestMatchers("/restaurant/**").hasRole("USER")
 			.requestMatchers("/notice/**").hasRole("USER")
+//			.requestMatchers("/restaurant/register/**").hasRole("BMAN")
+//			.requestMatchers("/restaurant/register/**").permitAll()
+//			.requestMatchers("/restaurant/delete/**").hasRole("ADMIN")
 			.requestMatchers("/admin/notice/**").hasRole("ADMIN")
+			.requestMatchers("/bm/request/**").hasRole("ADMIN")
 
 			.requestMatchers("/bm/register", "/bm/images", "/bm/login").permitAll()
 			.requestMatchers("/bm/info/**").hasRole("BMAN")
