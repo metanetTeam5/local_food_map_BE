@@ -17,7 +17,11 @@
 				rest_phone_number,
 				rest_open_time,
 				rest_close_time,
-				rest_create_date
+				rest_create_date,
+				rest_station,
+				rest_category,
+				rest_max_resv,
+				rest_deposit
 				) 
 		VALUES (
 			#{restId},
@@ -29,7 +33,11 @@
 			#{restPhoneNumber},
 			#{restOpenTime},
 			#{restCloseTime},
-			#{restCreateDate}
+			#{restCreateDate},
+			#{restStation},
+			#{restCategory},
+			#{restMaxResv},
+			#{restDeposit}
 		) 
 	]]>
 	</insert>
@@ -61,7 +69,11 @@
 			rest_phone_number,
 			rest_open_time,
 			rest_close_time,
-			rest_create_date
+			rest_create_date,
+			rest_station,
+			rest_category,
+			rest_max_resv,
+			rest_deposit
 		FROM 
 			Restaurant
 		WHERE rest_id=#{restId}
@@ -163,6 +175,10 @@
         <result property="restOpenTime" column="rest_open_time"/>
         <result property="restCloseTime" column="rest_close_time"/>
         <result property="restCreateDate" column="rest_create_date"/>
+        <result property="restStation" column="rest_station"/>
+        <result property="restCategory" column="rest_category"/>
+        <result property="restMaxResv" column="rest_max_resv"/>
+        <result property="restDeposit" column="rest_deposit"/>
     </resultMap>
 
 </mapper>

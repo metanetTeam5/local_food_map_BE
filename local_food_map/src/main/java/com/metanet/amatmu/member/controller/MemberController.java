@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.metanet.amatmu.member.dto.MemberInfoDto;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
+import com.metanet.amatmu.member.dto.MemberLoginResultDto;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.dto.MemberRegisterResultDto;
 import com.metanet.amatmu.member.dto.UpdateMemberInfoDto;
@@ -72,7 +73,7 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("/checkphoneNumber")
+	@GetMapping("/checkphonenumber")
 	public ResponseEntity<String> checkPhoneNumberDuplicate(@RequestParam String phoneNumber) {
 		if (memberService.checkPhoneNumberDuplicate(phoneNumber)) {
 			return ResponseEntity.status(409).body("중복된 전화 번호");
@@ -96,7 +97,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> memberLogin(@RequestBody MemberLoginDto loginDto) {
+	public ResponseEntity<MemberLoginResultDto> memberLogin(@RequestBody MemberLoginDto loginDto) {
 		return ResponseEntity.ok(memberService.memberLogin(loginDto));
 	}
 	

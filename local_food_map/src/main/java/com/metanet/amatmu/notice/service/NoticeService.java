@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import com.metanet.amatmu.exception.QueryFailedException;
 import com.metanet.amatmu.exception.UpdateFailedException;
 import com.metanet.amatmu.member.dao.IMemberRepository;
+import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.notice.dao.INoticeRepository;
 import com.metanet.amatmu.notice.model.Notice;
 import com.metanet.amatmu.notice.model.NoticeDto;
+import com.metanet.amatmu.notice.model.NoticeResponseDto;
 
 
 
@@ -58,8 +60,9 @@ public class NoticeService implements INoticeService{
 	}
 	
 	@Override
-	public Notice	selectNoticeById(Long notiId) {
+	public NoticeResponseDto	selectNoticeById(Long notiId) {
 		Notice	notice = noticeRepository.selectNoticeById(notiId);
+		Member	member = memberRepository.selectMemberById(notice.getMembId());
 		
 		if (notice == null) {
 			throw new QueryFailedException("There is no Notice " + notiId + ".");
@@ -67,7 +70,15 @@ public class NoticeService implements INoticeService{
 		notice.setNotiViews(notice.getNotiViews() + 1);
 		int	n = noticeRepository.updateNoticeViews(notice);
 		if (n > 0) {
-			return notice;
+//			return notice;
+			return new NoticeResponseDto(notice.getNotiId(), 
+					notice.getNotiTitle(), 
+					notice.getNotiContent(), 
+					notice.getNotiCreateDate(), 
+					notice.getNotiUpdateDate(), 
+					notice.getNotiViews(), 
+					notice.getMembId(), 
+					member.getNickname());
 		} else {
 			throw new QueryFailedException("Failed to update notice views");
 		}

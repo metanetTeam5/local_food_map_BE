@@ -27,4 +27,9 @@ public class RestaurantDto {
 	private String	restOpenTime;
 	private String	restCloseTime;
 	private Date	restCreateDate;
+	
+	private String	restStation;
+	private String	restCategory;
+	private int		restMaxResv;
+	private int		restDeposit;
 }
