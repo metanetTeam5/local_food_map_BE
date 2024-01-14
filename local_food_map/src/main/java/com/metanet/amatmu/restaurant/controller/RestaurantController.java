@@ -25,6 +25,7 @@ import com.metanet.amatmu.restaurant.model.RestaurantDto;
 import com.metanet.amatmu.restaurant.service.IRestaurantService;
 
 @RestController
+
 public class RestaurantController {
 	private IRestaurantService	restaurantService;
 	
@@ -33,12 +34,6 @@ public class RestaurantController {
 		this.restaurantService = restaurantService;
 	}
 	
-//	@PostMapping("/restaurant/register")
-//	public ResponseEntity<Restaurant>	createRestaurant(@AuthenticationPrincipal User member, @RequestBody RestaurantDto restaurantDto) {
-//		Restaurant restaurant = restaurantService.insertRestaurant(member, restaurantDto);
-//		
-//		return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
-//	}
 	
 	@PostMapping("/restaurant/register")
 	public ResponseEntity<Restaurant>	createRestaurant(@AuthenticationPrincipal User member, @RequestBody RestaurantDto restaurantDto) {
