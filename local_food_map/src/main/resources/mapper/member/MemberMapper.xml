@@ -114,4 +114,15 @@
 			memb_email=#{email}
 	]]>
 	</update>
+	<select id="selectMemberById" parameterType="long" resultType="com.metanet.amatmu.member.model.Member">
+	<![CDATA[
+		SELECT 
+			memb_id as memberId, memb_email as email, memb_password as password, memb_nickname as nickname,
+			memb_name as name, memb_gender as gender, memb_birth_date as birthDate, memb_phone_number as phoneNumber,
+			memb_profile_img as profileImg, memb_create_date as createDate, memb_update_date as updateDate, memb_role as role
+		FROM 
+			member 
+		WHERE memb_id=#{membId}
+	]]>
+	</select>
 </mapper>

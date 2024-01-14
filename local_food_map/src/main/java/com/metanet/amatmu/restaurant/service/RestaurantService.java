@@ -68,7 +68,10 @@ public class RestaurantService implements IRestaurantService{
 				restaurantDto.getRestPhoneNumber(),
 				restaurantDto.getRestOpenTime(),
 				restaurantDto.getRestCloseTime(),
-				restaurantDto.getRestCreateDate()
+				restaurantDto.getRestCreateDate(),
+				restaurantDto.getRestStation(),
+				restaurantDto.getRestCategory(),
+				restaurantDto.getRestMaxResv()
 				);
 		queryStatus = restaurantRepository.insertRestaurant(restaurant);
 		if (queryStatus == 0) {

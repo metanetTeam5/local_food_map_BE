@@ -36,6 +36,8 @@
 			memb_id
 		FROM
 			notice
+		ORDER BY
+			noti_create_date DESC
 	]]>
 	</select>
 	
