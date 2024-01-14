@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.metanet.amatmu.notice.model.Notice;
 import com.metanet.amatmu.notice.model.NoticeDto;
+import com.metanet.amatmu.notice.model.NoticeResponseDto;
 import com.metanet.amatmu.notice.service.INoticeService;
 
 import ch.qos.logback.core.model.Model;
@@ -48,9 +49,14 @@ public class NoticeController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+//	@GetMapping("/notice/{noticeId}")
+//	public ResponseEntity<Notice> readNoticEntityById(@PathVariable Long noticeId) {
+//		Notice	notice = noticeService.selectNoticeById(noticeId);
+//		return new ResponseEntity<>(notice, HttpStatus.OK);
+//	}
 	@GetMapping("/notice/{noticeId}")
-	public ResponseEntity<Notice> readNoticEntityById(@PathVariable Long noticeId) {
-		Notice	notice = noticeService.selectNoticeById(noticeId);
+	public ResponseEntity<NoticeResponseDto> readNoticEntityById(@PathVariable Long noticeId) {
+		NoticeResponseDto	notice = noticeService.selectNoticeById(noticeId);
 		return new ResponseEntity<>(notice, HttpStatus.OK);
 	}
 	

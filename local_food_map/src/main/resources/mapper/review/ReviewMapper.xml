@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.metanet.amatmu.review.dao.IReviewRepository">
+	
+	<select id="selectMaxReviewId" resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(revw_id), 0) as "revwId"
+		FROM review
+	]]>
+	</select>
+	
+	<select id="selectReviewByReservationId" parameterType="long" resultType="com.metanet.amatmu.review.model.Review">
+		SELECT
+			revw_id as revwId,
+			revw_star_rate as revwStarRate,
+			revw_content as revwContent,
+			revw_create_date as revwCreateDate,
+			revw_img as revwImg,
+			rest_id as restId,
+			memb_id as membId,
+			resv_id as resvId
+		FROM
+			review
+		WHERE
+			resv_id = #{resvId}
+	</select>
+
+
+
+
+
+
+	<insert id="insertReview" parameterType="com.metanet.amatmu.review.model.Review">
+	<![CDATA[
+		INSERT INTO 
+			REVIEW (
+				revw_id, revw_star_rate, revw_content, revw_create_date, revw_img, rest_id, memb_id, resv_id
+			)
+			VALUES (
+				#{revwId}, #{revwStarRate}, #{revwContent}, #{revwCreateDate}, #{revwImg}, #{restId}, #{membId}, #{resvId}
+			)
+	]]>
+	</insert>
+
+
+	<select id="selectReviewById" parameterType="long" resultType="com.metanet.amatmu.review.model.Review">
+		SELECT
+			revw_id as revwId,
+			revw_star_rate as revwStarRate,
+			revw_content as revwContent,
+			revw_create_date as revwCreateDate,
+			revw_img as revwImg,
+			rest_id as restId,
+			memb_id as membId,
+			resv_id as resvId
+		FROM
+			review
+		WHERE
+			revw_id = #{reviewId}
+	</select>
+	
+	<update id="updateReview" parameterType="com.metanet.amatmu.review.model.Review">
+	<![CDATA[
+		UPDATE
+			review
+		SET
+			revw_star_rate = #{revwStarRate},
+			revw_content = #{revwContent},
+			revw_img = #{revwImg}
+		WHERE
+			revw_id = #{revwId}
+	]]>
+	</update>
+	
+	<delete id="deleteReviewById" parameterType="long">
+		<![CDATA[
+			DELETE FROM
+				review
+			WHERE
+				revw_id = #{revwId}
+		]]>	
+	</delete>
+
+	<select id="selectReviewsByMemberId" parameterType="long" resultMap="ReviewResultMap">
+	<![CDATA[
+		SELECT
+			revw_id,
+			revw_star_rate,
+			revw_content,
+			revw_create_date,
+			revw_img,
+			rest_id,
+			memb_id,
+			resv_id
+		FROM
+			review
+		WHERE
+			memb_id = #{memberId}
+	]]>
+	</select>
+	
+	<select id="selectReviewsByRestId" parameterType="long" resultMap="ReviewResultMap">
+	<![CDATA[
+		SELECT
+			revw_id,
+			revw_star_rate,
+			revw_content,
+			revw_create_date,
+			revw_img,
+			rest_id,
+			memb_id,
+			resv_id
+		FROM
+			review
+		WHERE
+			rest_id = #{restId}
+	]]>
+	</select>
+	
+	
+	<resultMap id="ReviewResultMap" type="com.metanet.amatmu.review.model.Review">
+		<id property="revwId" column="revw_id"/>
+		<result property="revwStarRate" column="revw_star_rate"/>
+		<result property="revwContent" column="revw_content"/>
+		<result property="revwCreateDate" column="revw_create_date"/>
+		<result property="revwImg" column="revw_img"/>
+		<result property="restId" column="rest_id"/>
+		<result property="membId" column="memb_id"/>
+		<result property="resvId" column="resv_id"/>
+	</resultMap>
+
+
+	<!-- <insert id="insertNotice" parameterType="com.metanet.amatmu.notice.model.Notice">
+	<![CDATA[
+		INSERT INTO 
+			NOTICE (
+				noti_id, noti_title, noti_content, noti_create_date, noti_update_date, noti_views, memb_id
+			)
+			VALUES (
+				#{notiId}, #{notiTitle}, #{notiContent}, #{notiCreateDate}, #{notiUpdateDate}, #{notiViews}, #{membId}
+			)
+	]]>
+	</insert>
+	
+	<select id="selectMaxNoticeId" resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(noti_id), 0) as "notiId"
+		FROM notice
+	]]>
+	</select>
+	
+	<select id="selectAllNotice" resultMap="noticeResultMap">
+	<![CDATA[
+		SELECT
+			noti_id,
+			noti_title,
+			noti_content,
+			noti_create_date,
+			noti_update_date,
+			noti_views,
+			memb_id
+		FROM
+			notice
+	]]>
+	</select>
+	
+	<select id="selectNoticeById" parameterType="long" resultType="com.metanet.amatmu.notice.model.Notice">
+		SELECT
+			noti_id as notiId,
+			noti_title as notiTitle,
+			noti_content as notiContent,
+			noti_create_date as notiCreateDate,
+			noti_update_date as notiUpdateDate,
+			noti_views as notiViews,
+			memb_id as membId
+		FROM
+			notice
+		WHERE
+			noti_id = #{notiId}
+	</select>
+	
+	<update id="updateNotice" parameterType="com.metanet.amatmu.notice.model.Notice">
+	<![CDATA[
+		UPDATE notice
+		SET
+			noti_title = #{notiTitle},
+			noti_content = #{notiContent},
+			noti_update_date = #{notiUpdateDate}
+		WHERE
+			noti_id = #{notiId}
+	]]>
+	</update>
+	
+	<update id="updateNoticeViews" parameterType="com.metanet.amatmu.notice.model.Notice">
+	<![CDATA[
+		UPDATE notice
+		SET
+			noti_views = #{notiViews}
+		WHERE
+			noti_id = #{notiId}
+	]]>
+	</update>
+	
+	<delete id="deleteNoticeById" parameterType="long">
+		<![CDATA[
+			DELETE FROM
+				NOTICE
+			WHERE
+				noti_id = #{notiId}
+		]]>	
+	</delete>
+	
+	
+	<resultMap id="noticeResultMap" type="com.metanet.amatmu.notice.model.Notice">
+		<id property="notiId" column="noti_id"/>
+		<result property="notiTitle" column="noti_title"/>
+		<result property="notiContent" column="noti_content"/>
+		<result property="notiCreateDate" column="noti_content_date"/>
+		<result property="notiUpdateDate" column="noti_update_date"/>
+		<result property="notiViews" column="noti_views"/>
+		<result property="membId" column="memb_id"/>
+	</resultMap>
+ -->	
+</mapper>

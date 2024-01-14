@@ -68,7 +68,10 @@ public class RestaurantService implements IRestaurantService{
 				restaurantDto.getRestPhoneNumber(),
 				restaurantDto.getRestOpenTime(),
 				restaurantDto.getRestCloseTime(),
-				restaurantDto.getRestCreateDate()
+				restaurantDto.getRestCreateDate(),
+				restaurantDto.getRestStation(),
+				restaurantDto.getRestCategory(),
+				restaurantDto.getRestMaxResv()
 				);
 		queryStatus = restaurantRepository.insertRestaurant(restaurant);
 		if (queryStatus == 0) {
@@ -94,8 +97,10 @@ public class RestaurantService implements IRestaurantService{
 	public String evaluateBmanRequest(EvaluateBmanDto evaluateBmanDto) {
 		String	eval = evaluateBmanDto.getEval();
 		int		queryStatus = 0;
-
-		evaluateBmanDto.setGrantDate(new Date(System.currentTimeMillis()));
+		
+		if (eval == "GRANTED") {
+			evaluateBmanDto.setGrantDate(new Date(System.currentTimeMillis()));
+		}
 		queryStatus = restaurantRepository.evaluateBmanRequest(evaluateBmanDto);
 		if (queryStatus > 0) {
 			return eval;
