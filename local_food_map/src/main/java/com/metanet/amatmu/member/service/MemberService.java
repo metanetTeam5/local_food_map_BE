@@ -19,6 +19,7 @@ import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.dto.UpdateMemberInfoDto;
 import com.metanet.amatmu.member.dto.UpdateMemberPasswordDto;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
+import com.metanet.amatmu.member.dto.MemberLoginResultDto;
 import com.metanet.amatmu.member.exception.MemberErrorCode;
 import com.metanet.amatmu.member.exception.MemberException;
 import com.metanet.amatmu.member.model.Member;
@@ -159,7 +160,7 @@ public class MemberService implements IMemberService{
 	}
 
 	@Override
-	public String memberLogin(MemberLoginDto loginDto) {
+	public MemberLoginResultDto memberLogin(MemberLoginDto loginDto) {
 		Member member = selectMember(loginDto.getEmail());
 		
 		checkMemberNull(member);
@@ -168,7 +169,15 @@ public class MemberService implements IMemberService{
 			throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
 		}		
 		
-		return provider.generateToken(member);
+		String token = provider.generateToken(member);
+		
+		MemberLoginResultDto result = new MemberLoginResultDto();
+		result.setUserId(member.getMemberId());
+		result.setUserEmail(member.getEmail());
+		result.setToken(token);
+		result.setUserProfileImg(member.getProfileImg());
+		
+		return result;
 	}
 	
 
@@ -305,5 +314,11 @@ public class MemberService implements IMemberService{
 		if (member == null) {
 			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
 		}
+	}
+
+	@Override
+	public Member searchMemberByKakaoUserphonenumber(String phoneNumber) {
+		
+		return memberDao.searchMemberByKakaoUserphonenumber(phoneNumber);
 	}
 }

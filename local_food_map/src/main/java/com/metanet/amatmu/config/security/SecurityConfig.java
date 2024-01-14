@@ -35,6 +35,7 @@ public class SecurityConfig {
 //			.requestMatchers("/restaurant/favorites/**").hasRole("USER")
 //			.requestMatchers("/restaurant/register/**").hasRole("BMAN")
 //			.requestMatchers("/restaurant/delete/**").hasRole("ADMIN")
+
 //			.requestMatchers("/restaurant/**").hasRole("USER")
 //			.requestMatchers("/notice/**").hasRole("USER")
 //			.requestMatchers("/review/reservation/**").hasRole("USER")
@@ -46,6 +47,14 @@ public class SecurityConfig {
 //
 //			.requestMatchers("/bm/register", "/bm/images", "/bm/login").permitAll()
 //			.requestMatchers("/bm/info/**").hasRole("BMAN")
+
+			.requestMatchers("/admin/notice/**").hasRole("ADMIN")
+			.requestMatchers("/bm/request/**").hasRole("ADMIN")
+
+			.requestMatchers("/bm/register", "/bm/images", "/bm/login").permitAll()
+			.requestMatchers("kakao/**").permitAll()
+			.requestMatchers("/bm/info/**").hasRole("BMAN")
+
 
 		)
 		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate),

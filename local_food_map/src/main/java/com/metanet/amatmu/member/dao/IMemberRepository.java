@@ -23,5 +23,9 @@ public interface IMemberRepository {
 	int deleteMember(String email);
 	int updateMemberProfileImg(MemberEmailProfileDto memberEmailProfileDto);
 	int updateMemberPassword(UpdateMemberPasswordDto updateMemberInfoDto);
+
 	Member	selectMemberById(Long membId);
+
+	Member searchMemberByKakaoUserphonenumber(String phoneNumber);
+
 }
