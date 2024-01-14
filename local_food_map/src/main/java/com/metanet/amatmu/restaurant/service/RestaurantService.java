@@ -71,7 +71,8 @@ public class RestaurantService implements IRestaurantService{
 				restaurantDto.getRestCreateDate(),
 				restaurantDto.getRestStation(),
 				restaurantDto.getRestCategory(),
-				restaurantDto.getRestMaxResv()
+				restaurantDto.getRestMaxResv(),
+				restaurantDto.getRestDeposit()
 				);
 		queryStatus = restaurantRepository.insertRestaurant(restaurant);
 		if (queryStatus == 0) {
