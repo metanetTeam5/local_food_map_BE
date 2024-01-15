@@ -3,6 +3,7 @@ package com.metanet.amatmu.restaurant.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.stream.StreamInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -73,7 +74,11 @@ public class RestaurantController {
 		return new ResponseEntity<>(evalMessage, HttpStatus.OK); 
 	}
 	
-	
-	
+	@GetMapping("/restaurant/search/{searchKeyword}")
+	public ResponseEntity<List<Restaurant>>	searchRestaurantsByKeyword(@PathVariable String searchKeyword) {
+		List<Restaurant>	restaurants = restaurantService.searchRestaurantsByKeyword(searchKeyword);
+		
+		return new ResponseEntity<>(restaurants, HttpStatus.OK);
+	}
 
 }

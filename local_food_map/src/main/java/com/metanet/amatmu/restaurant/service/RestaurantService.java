@@ -129,6 +129,13 @@ public class RestaurantService implements IRestaurantService{
 			throw new QueryFailedException("Failed to  delete the Businessman");
 		}
 	}
+	
+	@Override
+	public List<Restaurant>	searchRestaurantsByKeyword(String searchKeyword) {
+		List<Restaurant>	restaurants = restaurantRepository.selectRestaurantsByKeyword(searchKeyword);
+		
+		return restaurants;
+	}
 
 	
 

@@ -16,9 +16,5 @@ public interface IRestaurantService {
 	List<Businessman>	readBmanRequest();
 	String				evaluateBmanRequest(EvaluateBmanDto evaluateBmanDto);
 	
-//	
-//	void				searchRestaurant
-////	List<Restaurant>	searchRestaurantstaurants(String restCategory, String restKeyword, String restName, String restStation);
-////	List<Restaurant>	selectAllRestaurants();
-	
+	List<Restaurant>	searchRestaurantsByKeyword(String searchKeyword);
 }
