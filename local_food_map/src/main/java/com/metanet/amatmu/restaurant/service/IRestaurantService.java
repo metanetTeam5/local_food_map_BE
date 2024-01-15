@@ -15,4 +15,6 @@ public interface IRestaurantService {
 	Restaurant			deleteRestaurant(Long restId);
 	List<Businessman>	readBmanRequest();
 	String				evaluateBmanRequest(EvaluateBmanDto evaluateBmanDto);
+	
+	List<Restaurant>	searchRestaurantsByKeyword(String searchKeyword);
 }

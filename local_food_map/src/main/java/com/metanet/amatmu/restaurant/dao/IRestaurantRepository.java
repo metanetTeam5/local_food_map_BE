@@ -20,4 +20,5 @@ public interface IRestaurantRepository {
 	List<Businessman>	selectBmanRequest();
 	int					evaluateBmanRequest(EvaluateBmanDto evaluateBmanDto);
 	
+	List<Restaurant>	selectRestaurantsByKeyword(String searchKeyword);
 }
