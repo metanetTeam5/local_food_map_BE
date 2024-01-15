@@ -23,6 +23,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		if (request.getMethod().equals("OPTIONS")) {
+			System.out.println("OPTIONS 처리");
+			System.out.println(request.getHeader("origin"));
+			response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+	        response.setHeader("Access-Control-Allow-Credentials", "true");
+	        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH");
+	        response.setHeader("Access-Control-Max-Age", "3600");
+	        response.setHeader("Access-Control-Allow-Headers", "content-type, Accept, X-Requested-With, remember-me, x-auth-token");
+	        response.setStatus(200);
+	        filterChain.doFilter(request, response);
+	        return;
+		}
+		
 		String token = jwtTokenProvider.resolveToken(request);
 
 	    if (token != null && jwtTokenProvider.validateToken(token)) {
