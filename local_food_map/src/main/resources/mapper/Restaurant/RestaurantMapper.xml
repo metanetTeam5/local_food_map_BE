@@ -147,6 +147,34 @@
 	</update>
 	
 	
+	<select id="selectRestaurantsByKeyword" parameterType="String" resultMap="RestaurantResultMap">
+		<![CDATA[
+		SELECT 			
+			rest_id,
+			rest_name,
+			rest_location_x,
+			rest_location_y,
+			rest_location_name,
+			rest_keyword,
+			rest_phone_number,
+			rest_open_time,
+			rest_close_time,
+			rest_create_date,
+			rest_station,
+			rest_category,
+			rest_max_resv,
+			rest_deposit
+		FROM 
+			Restaurant
+		WHERE 
+			rest_location_name LIKE CONCAT('%', #{searchKeyword}, '%') OR
+			rest_keyword LIKE CONCAT('%', #{searchKeyword}, '%') OR
+			rest_station LIKE CONCAT('%', #{searchKeyword}, '%') OR
+			rest_category LIKE CONCAT('%', #{searchKeyword}, '%')
+		]]>
+	</select>
+	
+	
 	
 	<resultMap id="BusinessmanResultMap" type="com.metanet.amatmu.businessman.model.Businessman">
         <id property="businessmanId" column="bman_id"/>
