@@ -23,6 +23,7 @@ import com.metanet.amatmu.member.dto.MemberLoginResultDto;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.dto.MemberRegisterResultDto;
 import com.metanet.amatmu.member.dto.UpdateMemberInfoDto;
+import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.member.model.MemberUserDetails;
 import com.metanet.amatmu.member.service.IMemberService;
 
@@ -53,6 +54,15 @@ public class MemberController {
 	public ResponseEntity<String> updateMemberProfileImg(@AuthenticationPrincipal MemberUserDetails member, MultipartFile file) {
 		memberService.uploadMemberProfileImg(member.getUsername(), file);
 		return ResponseEntity.ok("프로필사진 수정 완료");
+	}
+	
+	@GetMapping("profileimg/{memberId}")
+	public ResponseEntity<Member> loadProfileImg(@PathVariable("memberId") Long memberId){
+		Member searchByMemberIdMember = memberService.selectMemberById(memberId);
+		
+		System.out.println("유저 아이디로 찾은 정보 : " + searchByMemberIdMember);
+		
+		return ResponseEntity.ok(searchByMemberIdMember);
 	}
 	
 	@GetMapping("/checkemail")

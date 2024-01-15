@@ -321,4 +321,9 @@ public class MemberService implements IMemberService{
 		
 		return memberDao.searchMemberByKakaoUserphonenumber(phoneNumber);
 	}
+
+	@Override
+	public Member selectMemberById(Long memberId) {
+		return memberDao.selectMemberById(memberId);
+	}
 }

@@ -49,19 +49,6 @@ public class ReviewController {
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//리뷰아이디로 리뷰 조회
 	@GetMapping("/review/search/{reviewId}")
 	public ResponseEntity<Review>	getReviewById(@PathVariable Long reviewId) {
@@ -99,7 +86,11 @@ public class ReviewController {
 	//해당 가게의 모든 리뷰들 
 	@GetMapping("/review/restaurant/{restId}")
 	public ResponseEntity<List<Review>>	getReviewsByRestId(@PathVariable Long restId) {
+		System.out.println("번호 : " + restId);
+		
 		List<Review>	reviews = reviewService.getReviewsByRestId(restId); 
+		
+		System.out.println("조회 결과 :" + reviews);
 		
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 	}

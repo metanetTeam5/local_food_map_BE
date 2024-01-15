@@ -124,6 +124,8 @@
       FROM 
         member 
       WHERE memb_id=#{membId}
+      ]]>
+      </select>
 	
 	<select id="searchMemberByKakaoUserphonenumber" parameterType="string" resultType="com.metanet.amatmu.member.model.Member">
 

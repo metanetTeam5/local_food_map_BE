@@ -180,5 +180,7 @@
         <result property="restMaxResv" column="rest_max_resv"/>
         <result property="restDeposit" column="rest_deposit"/>
     </resultMap>
+    
+   
 
 </mapper>
