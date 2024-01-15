@@ -167,10 +167,10 @@
 		FROM 
 			Restaurant
 		WHERE 
-			rest_location_name LIKE CONCAT('%', #{searchKeyword}, '%') OR
-			rest_keyword LIKE CONCAT('%', #{searchKeyword}, '%') OR
-			rest_station LIKE CONCAT('%', #{searchKeyword}, '%') OR
-			rest_category LIKE CONCAT('%', #{searchKeyword}, '%')
+			rest_location_name LIKE '%' || #{searchKeyword} || '%' OR
+			rest_keyword LIKE '%' || #{searchKeyword} || '%' OR
+			rest_station LIKE '%' || #{searchKeyword} || '%' OR
+			rest_category LIKE '%' || #{searchKeyword} || '%'
 		]]>
 	</select>
 	
