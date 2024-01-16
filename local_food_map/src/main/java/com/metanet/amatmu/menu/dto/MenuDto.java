@@ -1,17 +1,13 @@
-package com.metanet.amatmu.menu.model;
+package com.metanet.amatmu.menu.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class Menu {
+@ToString
+public class MenuDto {
 
     private Long menuId;
     private String menuName;
