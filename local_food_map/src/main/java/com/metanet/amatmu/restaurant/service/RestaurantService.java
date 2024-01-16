@@ -72,7 +72,8 @@ public class RestaurantService implements IRestaurantService{
 				restaurantDto.getRestStation(),
 				restaurantDto.getRestCategory(),
 				restaurantDto.getRestMaxResv(),
-				restaurantDto.getRestDeposit()
+				restaurantDto.getRestDeposit(),
+				null							//img 넣기?
 				);
 		queryStatus = restaurantRepository.insertRestaurant(restaurant);
 		if (queryStatus == 0) {

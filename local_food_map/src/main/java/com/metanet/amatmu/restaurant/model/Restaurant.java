@@ -30,4 +30,6 @@ public class Restaurant {
 	private int		restMaxResv;
 	
 	private int		restDeposit;
+	
+	private String	restImg;
 }
