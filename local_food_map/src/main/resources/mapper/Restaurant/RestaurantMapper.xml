@@ -21,7 +21,8 @@
 				rest_station,
 				rest_category,
 				rest_max_resv,
-				rest_deposit
+				rest_deposit,
+				rest_img
 				) 
 		VALUES (
 			#{restId},
@@ -37,7 +38,8 @@
 			#{restStation},
 			#{restCategory},
 			#{restMaxResv},
-			#{restDeposit}
+			#{restDeposit},
+			#{restImg}
 		) 
 	]]>
 	</insert>
@@ -73,7 +75,8 @@
 			rest_station,
 			rest_category,
 			rest_max_resv,
-			rest_deposit
+			rest_deposit,
+			rest_img
 		FROM 
 			Restaurant
 		WHERE rest_id=#{restId}
@@ -127,7 +130,7 @@
 			bman_create_date,
 			bman_grant_date,
 			bman_account,
-			bman_status
+			bman_status                                              
 		FROM 
 			businessman
 		WHERE
@@ -173,7 +176,8 @@
 			rest_station,
 			rest_category,
 			rest_max_resv,
-			rest_deposit
+			rest_deposit,
+			rest_img
 		FROM 
 			Restaurant
 		WHERE 
@@ -217,6 +221,7 @@
         <result property="restCategory" column="rest_category"/>
         <result property="restMaxResv" column="rest_max_resv"/>
         <result property="restDeposit" column="rest_deposit"/>
+        <result property="restImg" column="rest_img"/>
     </resultMap>
     
    
