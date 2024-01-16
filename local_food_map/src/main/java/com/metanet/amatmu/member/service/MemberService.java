@@ -321,4 +321,28 @@ public class MemberService implements IMemberService{
 		
 		return memberDao.searchMemberByKakaoUserphonenumber(phoneNumber);
 	}
+	
+	@Override
+	public MemberLoginResultDto adminLogin(MemberLoginDto loginDto) {
+		Member member = selectMember(loginDto.getEmail());
+		
+		checkMemberNull(member);
+		
+		if (!passwordEncoder.matches(loginDto.getPassword(), member.getPassword())) {
+			throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
+		}
+		if (!(member.getRole().equals("ROLE_ADMIN"))) {
+			throw new MemberException(MemberErrorCode.MEMBER_NOT_ADMIN);
+		}
+		
+		String token = provider.generateToken(member);
+		
+		MemberLoginResultDto result = new MemberLoginResultDto();
+		result.setUserId(member.getMemberId());
+		result.setUserEmail(member.getEmail());
+		result.setToken(token);
+		result.setUserProfileImg(member.getProfileImg());
+		
+		return result;
+	}
 }

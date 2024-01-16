@@ -109,6 +109,7 @@ public class ReviewController {
 	public ResponseEntity<List<Review>>	getBmReviewsByRestId(@PathVariable Long restId) {
 		List<Review>	reviews = reviewService.getBmReviewsByRestId(restId); 
 		
+		
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 	}
 //	

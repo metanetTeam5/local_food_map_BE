@@ -31,5 +31,6 @@ public interface IMemberService {
 	String findEmail(String phoneNumber);
 	SingleMessageSentResponse findPassword(String email, String phoneNumber);
 	Member searchMemberByKakaoUserphonenumber(String phoneNumber);
-
+	
+	MemberLoginResultDto adminLogin(MemberLoginDto loginDto);
 }
