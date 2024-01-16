@@ -132,4 +132,18 @@ public class MemberController {
 	public ResponseEntity<SingleMessageSentResponse> sendAuthCode(@RequestParam String email, @RequestParam String phoneNumber) {
 		return ResponseEntity.ok(memberService.findPassword(email, phoneNumber));
 	}
+	
+	@PostMapping("/admin/login")
+	public ResponseEntity<MemberLoginResultDto>	adminLogin(@RequestBody MemberLoginDto loginDto) {
+		return ResponseEntity.ok(memberService.adminLogin(loginDto));
+	}
+	
+	@PostMapping("/admin/logout")
+	public ResponseEntity<String> adminLogout(HttpServletRequest request) {
+		return ResponseEntity.ok(memberService.memberLogout(request));
+	}
+	
+	
+	
+	
 }

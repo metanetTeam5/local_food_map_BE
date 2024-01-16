@@ -39,13 +39,14 @@ public class NoticeController {
 	@PostMapping("/admin/notice")
 	public ResponseEntity<Notice> createNotice(@AuthenticationPrincipal User member, @RequestBody NoticeDto noticeDto) {
 		Notice notice = noticeService.insertNotice(member, noticeDto);
-		return new ResponseEntity<>(notice, HttpStatus.CREATED);
 		
+		return new ResponseEntity<>(notice, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/notice")
 	public ResponseEntity<List<Notice>> readAllNotice() {
 		List<Notice> list = noticeService.selectAllNotice();
+		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
