@@ -1,6 +1,4 @@
-package com.metanet.amatmu.review.model;
-
-import java.sql.Date;
+package com.metanet.amatmu.review.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +11,14 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewDto {
+public class ReviewImageCreateDto {
 //	private Long	revwId;
 	private double	revwStarRate;
 	private String	revwContent;
 //	private Date	revwCreateDate;
-	private String	revwImg;		//update 할때만 사
+	private String	revwImg;
 	private Long	restId;
 //	private Long	membId;
 //	private Long	resvId;
+
 }
