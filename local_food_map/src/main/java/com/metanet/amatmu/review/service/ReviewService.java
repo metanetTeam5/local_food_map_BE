@@ -1,6 +1,7 @@
 package com.metanet.amatmu.review.service;
 
 import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.amazonaws.services.s3.internal.S3AbortableInputStream;
 import com.metanet.amatmu.exception.QueryFailedException;
 import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.notice.model.Notice;
+import com.metanet.amatmu.reservation.dao.IReservationRepository;
+import com.metanet.amatmu.reservation.model.Reservation;
 import com.metanet.amatmu.restaurant.dao.IRestaurantRepository;
 import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.review.dao.IReviewRepository;
@@ -36,13 +38,15 @@ public class ReviewService implements IReviewService {
 	private IMemberRepository		memberRepository;
 	private IRestaurantRepository	restaurantRepository;
 	private S3Uploader				s3Uploader;
+	private IReservationRepository	reservationRepository;
 	
 	@Autowired
-	public ReviewService(IReviewRepository reviewRepository, IMemberRepository memberRepository, IRestaurantRepository restaurantRepository, S3Uploader s3Uploader) {
+	public ReviewService(IReviewRepository reviewRepository, IMemberRepository memberRepository, IRestaurantRepository restaurantRepository, S3Uploader s3Uploader, IReservationRepository	reservationRepository) {
 		this.reviewRepository = reviewRepository;
 		this.memberRepository = memberRepository;
 		this.restaurantRepository = restaurantRepository;
 		this.s3Uploader = s3Uploader;
+		this.reservationRepository = reservationRepository;
 	}
 	
 	@Override
@@ -96,11 +100,12 @@ public class ReviewService implements IReviewService {
 			throw new QueryFailedException("only 1 review per reservation is allowed.");
 		}
 		
-		Long	membId = memberRepository.selectMember(member.getUsername()).getMemberId();
-		String	reviewImg = s3Uploader.fileUpload(file);
-		int		queryStatus = 0;
-		Long	reviewId = reviewRepository.selectMaxReviewId() + 1;
-		Review	createdReview = new Review(reviewId,
+		Long		membId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		String		reviewImg = s3Uploader.fileUpload(file);
+		int			queryStatus = 0;
+		Long		reviewId = reviewRepository.selectMaxReviewId() + 1;
+		Reservation	reservation = reservationRepository.selectReservationByResvId(reservationId);
+		Review		createdReview = new Review(reviewId,
 				reviewDto.getRevwStarRate(), 
 				reviewDto.getRevwContent(), 
 				new Date(System.currentTimeMillis()), 
@@ -110,12 +115,15 @@ public class ReviewService implements IReviewService {
 				reviewDto.getRestId(), 
 				membId, 
 				reservationId);
-				
 	
 		queryStatus = reviewRepository.insertReview(createdReview);
 		if (queryStatus == 0) {
 			throw new QueryFailedException("Failed to insert review: query error");
+		} else {
+			reservation.setResvStatus("Y");
+			reservationRepository.updateReservation(reservation);
 		}
+		
 		return createdReview;
 
 	}
