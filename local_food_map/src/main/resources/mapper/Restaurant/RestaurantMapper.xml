@@ -146,6 +146,16 @@
 	]]>
 	</update>
 	
+	<update id="updateRestaurant" parameterType="com.metanet.amatmu.restaurant.model.Restaurant">
+	<![CDATA[
+		UPDATE restaurant
+		SET
+			rest_max_resv=#{restMaxResv}
+		WHERE 
+			rest_id=#{restId}
+	]]>
+	</update>
+	
 	
 	<select id="selectRestaurantsByKeyword" parameterType="String" resultMap="RestaurantResultMap">
 		<![CDATA[

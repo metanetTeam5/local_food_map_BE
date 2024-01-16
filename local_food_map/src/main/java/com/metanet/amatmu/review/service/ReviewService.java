@@ -1,6 +1,7 @@
 package com.metanet.amatmu.review.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,10 @@ import com.metanet.amatmu.exception.QueryFailedException;
 import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.notice.model.Notice;
+import com.metanet.amatmu.restaurant.dao.IRestaurantRepository;
+import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.review.dao.IReviewRepository;
+import com.metanet.amatmu.review.dto.ReviewResultDto;
 import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.review.model.ReviewDto;
 
@@ -25,11 +29,13 @@ import kotlin.reflect.jvm.internal.impl.types.checker.ClassicTypeCheckerStateKt;
 public class ReviewService implements IReviewService {
 	private IReviewRepository reviewRepository;
 	private IMemberRepository memberRepository;
+	private IRestaurantRepository restaurantRepository;
 	
 	@Autowired
-	public ReviewService(IReviewRepository reviewRepository, IMemberRepository memberRepository) {
+	public ReviewService(IReviewRepository reviewRepository, IMemberRepository memberRepository, IRestaurantRepository restaurantRepository) {
 		this.reviewRepository = reviewRepository;
 		this.memberRepository = memberRepository;
+		this.restaurantRepository = restaurantRepository;
 	}
 	
 	@Override
@@ -110,11 +116,27 @@ public class ReviewService implements IReviewService {
 	}
 	
 	@Override
-	public List<Review>	getReviewsByMemberId(User member) {
+	public List<ReviewResultDto>	getReviewsByMemberId(User member) {
 		Long			memberId = memberRepository.selectMember(member.getUsername()).getMemberId();
 		List<Review>	reviews = reviewRepository.selectReviewsByMemberId(memberId);
 		
-		return reviews;
+		List<ReviewResultDto> result = new ArrayList<>();
+		for (Review review : reviews) {
+			ReviewResultDto resultDto = new ReviewResultDto();
+			resultDto.setRevwId(review.getRevwId());
+			resultDto.setRevwStarRate(review.getRevwStarRate());
+			resultDto.setRevwContent(review.getRevwContent());
+			resultDto.setRevwCreateDate(review.getRevwCreateDate());
+			resultDto.setRevwImg(review.getRevwImg());
+			resultDto.setRestId(review.getRestId());
+			resultDto.setMembId(review.getMembId());
+			resultDto.setResvId(review.getResvId());
+			Restaurant restaurant = restaurantRepository.selectRestaurantByRestId(review.getRestId());
+			resultDto.setRestName(restaurant.getRestName());
+			result.add(resultDto);
+		}
+		
+		return result;
 	}
 	
 	@Override

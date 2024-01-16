@@ -212,33 +212,39 @@ public class MemberService implements IMemberService{
 	}
 	
 	@Override
-	public MemberInfoDto updateMemberInfo(String email, UpdateMemberInfoDto updateMemberInfoDto) {
-		Member member = selectMember(email);
-		checkMemberNull(member);
-		
-		if (!passwordEncoder.matches(updateMemberInfoDto.getPassword(), member.getPassword())) {
-			throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
-		}
-		if (updateMemberInfoDto.getNewPassword() != null) {
-			member.setPassword(passwordEncoder.encode(updateMemberInfoDto.getNewPassword()));
-		}
-		member.setNickname(updateMemberInfoDto.getNickname());
-		member.setPhoneNumber(updateMemberInfoDto.getPhoneNumber());
-		member.setProfileImg(updateMemberInfoDto.getProfileImg());
-		
-		memberDao.updateMemberInfo(member);
-		
-		MemberInfoDto memberInfo = new MemberInfoDto();
-		memberInfo.setEmail(member.getEmail());
-		memberInfo.setNickname(member.getNickname());
-		memberInfo.setName(member.getName());
-		memberInfo.setGender(member.getGender());
-		memberInfo.setBirthDate(member.getBirthDate());
-		memberInfo.setPhoneNumber(member.getPhoneNumber());
-		memberInfo.setProfileImg(member.getProfileImg());
-		memberInfo.setCreateDate(member.getCreateDate());
-		return memberInfo;
-	}
+	   public MemberInfoDto updateMemberInfo(String email, UpdateMemberInfoDto updateMemberInfoDto) {
+	      Member member = selectMember(email);
+	      checkMemberNull(member);
+	      
+	      if (!passwordEncoder.matches(updateMemberInfoDto.getPassword(), member.getPassword())) {
+	         throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
+	      }
+	      
+	      if (updateMemberInfoDto.getNewPassword() != null) {
+	         String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+	          Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+	          Matcher matcher = pattern.matcher(updateMemberInfoDto.getPassword());
+	          
+	         if (!matcher.matches()) {
+	            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+	         }
+	         member.setPassword(passwordEncoder.encode(updateMemberInfoDto.getNewPassword()));
+	      }
+	      member.setNickname(updateMemberInfoDto.getNickname());
+	      
+	      memberDao.updateMemberInfo(member);
+	      
+	      MemberInfoDto memberInfo = new MemberInfoDto();
+	      memberInfo.setEmail(member.getEmail());
+	      memberInfo.setNickname(member.getNickname());
+	      memberInfo.setName(member.getName());
+	      memberInfo.setGender(member.getGender());
+	      memberInfo.setBirthDate(member.getBirthDate());
+	      memberInfo.setPhoneNumber(member.getPhoneNumber());
+	      memberInfo.setProfileImg(member.getProfileImg());
+	      memberInfo.setCreateDate(member.getCreateDate());
+	      return memberInfo;
+	   }
 	
 	@Override
 	public String deleteMember(String email, String password) {

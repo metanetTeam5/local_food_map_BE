@@ -12,6 +12,4 @@ public class UpdateMemberInfoDto {
 	private String password;
 	private String newPassword;
 	private String nickname;
-	private String phoneNumber;
-	private String profileImg;
 }
