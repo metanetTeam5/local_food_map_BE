@@ -67,11 +67,22 @@
 	</update>
 	<select id="selectReservationByResvId" parameterType="long" resultType="com.metanet.amatmu.reservation.model.Reservation">
   	<![CDATA[
-      	SELECT 
-        	*
+      	SELECT
+      		resv_id		as	resvId,
+	      	resv_date	as	resvDate,
+			resv_Headcount	as	resvHeadCount,
+			resv_create_date	as	resvCreateDate,
+			resv_hour as	resvHour,
+			resv_status	as	resvStatus,
+			resv_requirement	as	resvRequirement,
+			resv_pay_amount	as	resvPayAmount,
+			memb_id	as	membId,
+			rest_id	as	restId
       	FROM 
        	 reservation 
       	WHERE resv_id=#{resvId}
+      	
+      	
       ]]>
       </select>  
 </mapper>
