@@ -128,7 +128,6 @@
       </select>
 	
 	<select id="searchMemberByKakaoUserphonenumber" parameterType="string" resultType="com.metanet.amatmu.member.model.Member">
-
 	<![CDATA[
 		SELECT 
 			memb_id as memberId, memb_email as email, memb_password as password, memb_nickname as nickname,

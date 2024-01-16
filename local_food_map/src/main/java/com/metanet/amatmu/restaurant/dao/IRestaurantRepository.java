@@ -25,4 +25,5 @@ public interface IRestaurantRepository {
 	List<Restaurant> selectAllRestaurants(String restCategory, String restKeyword, String restName, String restStation);
 	
 	List<Restaurant>	selectRestaurantsByKeyword(String searchKeyword);
+	int					updateRestaurant(Restaurant restaurant);
 }

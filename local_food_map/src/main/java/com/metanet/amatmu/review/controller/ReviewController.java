@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.metanet.amatmu.member.dto.MemberRegisterDto;
+import com.metanet.amatmu.member.service.MemberService;
+import com.metanet.amatmu.review.dto.ReviewImageCreateDto;
+import com.metanet.amatmu.review.dto.ReviewResultDto;
+import com.metanet.amatmu.review.dto.ReviewResultRestaurantDto;
 import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.review.model.ReviewDto;
 import com.metanet.amatmu.review.service.IReviewService;
@@ -46,7 +53,26 @@ public class ReviewController {
 		
 		return new ResponseEntity<>(review, HttpStatus.CREATED);
 	}
-
+	
+	@PostMapping("/review/image/reservation/{reservationId}")
+	public ResponseEntity<String>	uploadReviewImg(@PathVariable Long reservationId, MultipartFile file) {
+		reviewService.uploadReviewImg(reservationId, file);
+		return ResponseEntity.ok("리뷰 이미지 등록 완료 ");
+	}
+	
+	@PostMapping("/reviewimage/reservation/{reservationId}")
+	public ResponseEntity<Review>	createReviewWithImg(
+			@AuthenticationPrincipal User member, 
+			@PathVariable Long reservationId,
+			@RequestPart("review") ReviewImageCreateDto reviewDto,
+			@RequestPart("file") MultipartFile file
+ 			){
+		Review	review = reviewService.createReviewWithImg(member, reservationId, reviewDto, file);
+		
+		return new ResponseEntity<>(review, HttpStatus.CREATED);
+	}
+	
+	
 	
 	
 	//리뷰아이디로 리뷰 조회
@@ -77,19 +103,17 @@ public class ReviewController {
 	
 	//회원의 자신의 리뷰들 조회
 	@GetMapping("/review/myreviews")
-	public ResponseEntity<List<Review>>	getReviewsByMemberId(@AuthenticationPrincipal User member) {
-		List<Review>	reviews = reviewService.getReviewsByMemberId(member); 
+	public ResponseEntity<List<ReviewResultDto>>	getReviewsByMemberId(@AuthenticationPrincipal User member) {
+		List<ReviewResultDto>	reviews = reviewService.getReviewsByMemberId(member); 
 		
 		return new ResponseEntity<>(reviews, HttpStatus.OK);	
 	}
 	
 	//해당 가게의 모든 리뷰들 
 	@GetMapping("/review/restaurant/{restId}")
-	public ResponseEntity<List<Review>>	getReviewsByRestId(@PathVariable Long restId) {
-		System.out.println("번호 : " + restId);
-		
-		List<Review>	reviews = reviewService.getReviewsByRestId(restId); 
-		
+	public ResponseEntity<List<ReviewResultRestaurantDto>>	getReviewsByRestId(@PathVariable Long restId) {
+		List<ReviewResultRestaurantDto>	reviews = reviewService.getReviewsByRestId(restId); 
+
 		System.out.println("조회 결과 :" + reviews);
 		
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
@@ -99,6 +123,7 @@ public class ReviewController {
 	@GetMapping("/bm/review/list/{restId}")
 	public ResponseEntity<List<Review>>	getBmReviewsByRestId(@PathVariable Long restId) {
 		List<Review>	reviews = reviewService.getBmReviewsByRestId(restId); 
+		
 		
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 	}
