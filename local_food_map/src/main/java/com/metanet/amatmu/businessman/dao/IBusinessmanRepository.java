@@ -5,8 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.metanet.amatmu.businessman.dto.BmUpdateRestImgDto;
+import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
 import com.metanet.amatmu.businessman.model.Businessman;
+import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.restaurant.model.UpdateRegisterRestaurantDto;
 
 @Repository
@@ -23,5 +26,7 @@ public interface IBusinessmanRepository {
 	
 	int updateBmRequested(UpdateRegisterRestaurantDto updateRegisterRestaurantDto);
 	int deleteBmByRestId(Long restId);
-	
+	Restaurant selectRestaurantByBmId(long bmId);
+	int updateRestaurantImage(BmUpdateRestImgDto dto);
+	int updateRestaurantInfo(BmUpdateRestaurantInfoDto dto);
 }

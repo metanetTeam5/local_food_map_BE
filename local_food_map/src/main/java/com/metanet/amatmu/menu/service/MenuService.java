@@ -36,5 +36,18 @@ public class MenuService implements IMenuService {
     	
         return result;
     }
+
+	@Override
+	public String getMenuName(Long restId) {
+		List<Menu> menuList = menuDao.selectByRestId(restId);
+		
+		String result = "";
+		
+		for (Menu menu : menuList) {
+			result += menu.getMenuName() + " ";
+		}
+		
+		return result;
+	}
 }
 

@@ -14,18 +14,24 @@ import com.metanet.amatmu.businessman.dao.IBusinessmanRepository;
 import com.metanet.amatmu.businessman.dto.BmImageResultDto;
 import com.metanet.amatmu.businessman.dto.BmInfoDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterDto;
+import com.metanet.amatmu.businessman.dto.BmRestaurantInfoDto;
+import com.metanet.amatmu.businessman.dto.BmUpdateRestImgDto;
+import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
 import com.metanet.amatmu.businessman.exception.BusinessmanErrorCode;
 import com.metanet.amatmu.businessman.exception.BusinessmanException;
 import com.metanet.amatmu.businessman.model.Businessman;
 import com.metanet.amatmu.config.security.JwtTokenProvider;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
+import com.metanet.amatmu.member.dto.MemberLoginResultDto;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.exception.MemberErrorCode;
 import com.metanet.amatmu.member.exception.MemberException;
 import com.metanet.amatmu.member.model.Member;
 import com.metanet.amatmu.member.model.MemberUserDetails;
 import com.metanet.amatmu.member.service.IMemberService;
+import com.metanet.amatmu.restaurant.dao.IRestaurantRepository;
+import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.utils.S3Uploader;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +56,9 @@ public class BusinessmanService implements IBusinessmanService{
 	
 	@Autowired
 	RedisTemplate<String, String> redisTemplate;
+	
+	@Autowired
+	IRestaurantRepository restDao;
 
 	@Override
 	public Long selectMaxBmNo() {
@@ -117,7 +126,7 @@ public class BusinessmanService implements IBusinessmanService{
 	}
 	
 	@Override
-	public String bmLogin(MemberLoginDto loginDto) {
+	public MemberLoginResultDto bmLogin(MemberLoginDto loginDto) {
 		Member member = memberService.selectMember(loginDto.getEmail());
 		
 		checkMemberNull(member);
@@ -130,7 +139,15 @@ public class BusinessmanService implements IBusinessmanService{
 			throw new BusinessmanException(BusinessmanErrorCode.INVALID_ROLE);
 		}
 		
-		return provider.generateToken(member);
+		String token = provider.generateToken(member);
+		
+		MemberLoginResultDto result = new MemberLoginResultDto();
+		result.setUserId(member.getMemberId());
+		result.setUserEmail(member.getEmail());
+		result.setToken(token);
+		result.setUserProfileImg(member.getProfileImg());
+		
+		return result;
 	}
 	
 	@Override
@@ -207,6 +224,45 @@ public class BusinessmanService implements IBusinessmanService{
 		return info;
 	}
 	
+	@Override
+	public BmRestaurantInfoDto getBmRestInfo(MemberUserDetails member) {
+		Businessman bm = bmDao.getBmListByMemberId(member.getMemberId()).get(0);
+		
+		Restaurant rest = restDao.selectRestaurantByRestId(bm.getRestaurantId());
+		
+		BmRestaurantInfoDto dto = new BmRestaurantInfoDto();
+		dto.setRestId(rest.getRestId());
+		dto.setRestName(rest.getRestName());
+		dto.setRestKeyword(rest.getRestKeyword());
+		dto.setRestOpenTime(rest.getRestOpenTime());
+		dto.setRestCloseTime(rest.getRestCloseTime());
+		dto.setRestPhoneNumber(rest.getRestPhoneNumber());
+		dto.setRestDeposit(rest.getRestDeposit());
+		dto.setRestImg(rest.getRestImg());
+		
+		return dto;
+	}
+	
+	@Override
+	public String updateRestaurantImage(MultipartFile restImg, long restId) {
+		String restImgUrl = s3Uploader.fileUpload(restImg);
+		
+		BmUpdateRestImgDto dto = new BmUpdateRestImgDto();
+		dto.setRestId(restId);
+		dto.setRestImg(restImgUrl);
+		
+		bmDao.updateRestaurantImage(dto);
+		
+		return restImgUrl;
+	}
+	
+	@Override
+	public String updateRestaurantInfo(BmUpdateRestaurantInfoDto dto) {
+		bmDao.updateRestaurantInfo(dto);
+		
+		return "식당 정보 수정 완료";
+	}
+
 	private void checkBmRegister(BmRegisterDto bmDto) {
 		if (bmDto.getCompanyName() == null || bmDto.getLicenseNumber() == null || 
 				bmDto.getAccount() == null) {
@@ -223,5 +279,4 @@ public class BusinessmanService implements IBusinessmanService{
 			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
 		}
 	}
-
 }
