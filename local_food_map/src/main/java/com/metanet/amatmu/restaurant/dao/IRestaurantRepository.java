@@ -21,4 +21,5 @@ public interface IRestaurantRepository {
 	int					evaluateBmanRequest(EvaluateBmanDto evaluateBmanDto);
 	
 	List<Restaurant>	selectRestaurantsByKeyword(String searchKeyword);
+	int updateRestaurant(Restaurant restaurant);
 }

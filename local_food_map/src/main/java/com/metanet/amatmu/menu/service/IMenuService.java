@@ -7,7 +7,7 @@ import com.metanet.amatmu.menu.dto.MenuDTO;
 import com.metanet.amatmu.menu.model.Menu;
 
 public interface IMenuService {
-
+ 
     List<MenuDTO> getMenuList(Long vendorId);
 
     void insertMenu(Menu menu, MenuDTO menuDTO, MultipartFile[] uploadFiles) throws IOException;

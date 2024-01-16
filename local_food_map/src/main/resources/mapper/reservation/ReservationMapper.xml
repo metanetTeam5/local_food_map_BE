@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.metanet.amatmu.reservation.dao.IReservationRepository">
+   <insert id="insertReservation" parameterType="com.metanet.amatmu.reservation.model.Reservation">
+   <![CDATA[
+      INSERT INTO 
+         reservation (
+            resv_id, resv_date, resv_headcount, resv_hour, resv_status, 
+            resv_requirement, resv_pay_amount, memb_id, rest_id
+         )
+         VALUES (
+            #{resvId}, #{resvDate}, #{resvHeadCount}, #{resvHour}, #{resvStatus}, 
+            #{resvRequirement}, #{resvPayAmount}, #{membId}, #{restId}
+         )
+   ]]>
+   </insert>
+   
+   <select id="selectMaxReservationNo" resultType="long">
+   <![CDATA[
+      SELECT NVL(MAX(resv_id), 0) as "resvId"
+      FROM reservation
+   ]]>
+   </select>
+   
+   
+   
+</mapper>
