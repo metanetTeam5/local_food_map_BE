@@ -180,11 +180,10 @@
 			rest_location_name LIKE '%' || #{searchKeyword} || '%' OR
 			rest_keyword LIKE '%' || #{searchKeyword} || '%' OR
 			rest_station LIKE '%' || #{searchKeyword} || '%' OR
-			rest_category LIKE '%' || #{searchKeyword} || '%'
+			rest_category LIKE '%' || #{searchKeyword} || '%' OR
+			rest_name LIKE '%' || #{searchKeyword} || '%'
 		]]>
 	</select>
-	
-	
 	
 	<resultMap id="BusinessmanResultMap" type="com.metanet.amatmu.businessman.model.Businessman">
         <id property="businessmanId" column="bman_id"/>
