@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.metanet.amatmu.reservation.dao.IReservationRepository">
+
+   <resultMap id="ReservationResultMap" type="com.metanet.amatmu.reservation.model.Reservation">
+       <result property="resvId" column="resv_id"/>
+       <result property="resvDate" column="resv_date"/>
+       <result property="resvHeadCount" column="resv_headcount"/>
+       <result property="resvCreateDate" column="resv_create_date"/>
+       <result property="resvHour" column="resv_hour"/>
+       <result property="resvStatus" column="resv_status"/>
+       <result property="resvRequirement" column="resv_requirement"/>
+          <result property="resvPayAmount" column="resv_pay_amount"/>
+          <result property="membId" column="memb_id"/>
+          <result property="restId" column="rest_id"/>
+   </resultMap>
+   
+   <insert id="insertReservation" parameterType="com.metanet.amatmu.reservation.model.Reservation">
+   <![CDATA[
+      INSERT INTO 
+         reservation (
+            resv_id, resv_date, resv_headcount, resv_hour, resv_status, 
+            resv_requirement, resv_pay_amount, memb_id, rest_id
+         )
+         VALUES (
+            #{resvId}, #{resvDate}, #{resvHeadCount}, #{resvHour}, #{resvStatus}, 
+            #{resvRequirement}, #{resvPayAmount}, #{membId}, #{restId}
+         )
+   ]]>
+   </insert>
+   
+   <select id="selectMaxReservationNo" resultType="long">
+   <![CDATA[
+      SELECT NVL(MAX(resv_id), 0) as "resvId"
+      FROM reservation
+   ]]>
+   </select>
+   
+   <select id="selectReservationListByMembId" parameterType="long" resultMap="ReservationResultMap">
+   <![CDATA[
+      SELECT 
+         *
+      FROM reservation
+      WHERE memb_id = #{membId}
+   ]]>
+   </select>
+   
+   <select id="selectReservationListByRestId" parameterType="long" resultMap="ReservationResultMap">
+   <![CDATA[
+      SELECT 
+         *
+      FROM reservation
+      WHERE rest_id = #{restId}
+   ]]>
+   </select>
+   <update id="updateReservation" parameterType="com.metanet.amatmu.reservation.model.Reservation">
+	<![CDATA[
+		UPDATE reservation
+		SET 
+			resv_date=#{resvDate}, resv_headcount=#{resvHeadCount}, 
+			resv_hour=#{resvHour}, resv_requirement=#{resvRequirement}, resv_pay_amount=#{resvPayAmount}
+		WHERE 
+			resv_id=#{resvId}
+	]]>
+	</update>
+	<select id="selectReservationByResvId" parameterType="long" resultType="com.metanet.amatmu.reservation.model.Reservation">
+  	<![CDATA[
+      	SELECT 
+        	*
+      	FROM 
+       	 reservation 
+      	WHERE resv_id=#{resvId}
+      ]]>
+      </select>  
+</mapper>
