@@ -21,6 +21,11 @@ public class MenuController {
         List<MenuDto> menuList = menuService.getMenuList(restId);
         return ResponseEntity.ok(menuList);
     }
+    
+    @GetMapping("/namelist/{restId}")
+    public ResponseEntity<String> getMenuName(@PathVariable Long restId) {
+    	return ResponseEntity.ok(menuService.getMenuName(restId));
+    }
 }
 
 

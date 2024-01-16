@@ -113,5 +113,24 @@
 		]]>
 	</delete>
 	
+	<update id="updateRestaurantImage" parameterType="com.metanet.amatmu.businessman.dto.BmUpdateRestImgDto">
+	<![CDATA[
+		UPDATE restaurant
+		SET 
+			rest_img=#{restImg}
+		WHERE 
+			rest_id=#{restId}
+	]]>
+	</update>
 	
+	<update id="updateRestaurantInfo" parameterType="com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto">
+	<![CDATA[
+		UPDATE restaurant
+		SET 
+			rest_open_time=#{restOpenTime},
+			rest_close_time=#{restCloseTime}
+		WHERE 
+			rest_id=#{restId}
+	]]>
+	</update>
 </mapper>

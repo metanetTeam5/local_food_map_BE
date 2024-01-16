@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +18,12 @@ import com.metanet.amatmu.businessman.dto.BmImageResultDto;
 import com.metanet.amatmu.businessman.dto.BmInfoDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterResultDto;
+import com.metanet.amatmu.businessman.dto.BmRestaurantInfoDto;
+import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
 import com.metanet.amatmu.businessman.service.IBusinessmanService;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
+import com.metanet.amatmu.member.dto.MemberLoginResultDto;
 import com.metanet.amatmu.member.model.MemberUserDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +51,7 @@ public class BusinessmanController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> bmLogin(@RequestBody MemberLoginDto loginDto) {
+	public ResponseEntity<MemberLoginResultDto> bmLogin(@RequestBody MemberLoginDto loginDto) {
 		return ResponseEntity.ok(businessmanService.bmLogin(loginDto));
 	}
 	
@@ -67,5 +71,20 @@ public class BusinessmanController {
 			@RequestBody UpdateBmInfoDto updateBmInfoDto
 			) {
 		return ResponseEntity.ok(businessmanService.updateBmInfo(member, updateBmInfoDto));
+	}
+	
+	@GetMapping("/restaurant/info")
+	public ResponseEntity<BmRestaurantInfoDto> getBmRestInfo(@AuthenticationPrincipal MemberUserDetails member) {
+		return ResponseEntity.ok(businessmanService.getBmRestInfo(member));
+	}
+	
+	@PutMapping("/update/restaurant/image/{restId}")
+	public ResponseEntity<String> updateRestaurantImage(MultipartFile restImg, @PathVariable long restId) {
+		return ResponseEntity.ok(businessmanService.updateRestaurantImage(restImg, restId));
+	}
+	
+	@PutMapping("/restaurant/info/update")
+	public ResponseEntity<String> updateRestaurantInfo(@RequestBody BmUpdateRestaurantInfoDto dto) {
+		return ResponseEntity.ok(businessmanService.updateRestaurantInfo(dto));
 	}
 }
