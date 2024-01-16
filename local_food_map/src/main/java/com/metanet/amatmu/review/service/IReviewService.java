@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import com.metanet.amatmu.review.dto.ReviewResultDto;
 import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.review.model.ReviewDto;
 
@@ -22,7 +23,7 @@ public interface IReviewService {
 	Review			getReviewById(Long reviewId);
 	Review			updateReviewById(Long reviewId, ReviewDto reviewDto);
 	Review			deleteReviewById(Long reviewId);
-	List<Review>	getReviewsByMemberId(User member);
+	List<ReviewResultDto>	getReviewsByMemberId(User member);
 	List<Review>	getReviewsByRestId(Long restId);
 	List<Review>	getBmReviewsByRestId(Long restId);
 //	Review			requestDeleteReview(Long reviewId);

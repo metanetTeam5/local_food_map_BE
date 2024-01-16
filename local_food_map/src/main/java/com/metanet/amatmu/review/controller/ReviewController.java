@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.metanet.amatmu.review.dto.ReviewResultDto;
 import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.review.model.ReviewDto;
 import com.metanet.amatmu.review.service.IReviewService;
@@ -90,8 +91,8 @@ public class ReviewController {
 	
 	//회원의 자신의 리뷰들 조회
 	@GetMapping("/review/myreviews")
-	public ResponseEntity<List<Review>>	getReviewsByMemberId(@AuthenticationPrincipal User member) {
-		List<Review>	reviews = reviewService.getReviewsByMemberId(member); 
+	public ResponseEntity<List<ReviewResultDto>>	getReviewsByMemberId(@AuthenticationPrincipal User member) {
+		List<ReviewResultDto>	reviews = reviewService.getReviewsByMemberId(member); 
 		
 		return new ResponseEntity<>(reviews, HttpStatus.OK);	
 	}
