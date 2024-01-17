@@ -19,6 +19,7 @@ import com.metanet.amatmu.businessman.dto.BmInfoDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterResultDto;
 import com.metanet.amatmu.businessman.dto.BmRestaurantInfoDto;
+import com.metanet.amatmu.businessman.dto.BmReviewDto;
 import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
 import com.metanet.amatmu.businessman.service.IBusinessmanService;
@@ -86,5 +87,10 @@ public class BusinessmanController {
 	@PutMapping("/restaurant/info/update")
 	public ResponseEntity<String> updateRestaurantInfo(@RequestBody BmUpdateRestaurantInfoDto dto) {
 		return ResponseEntity.ok(businessmanService.updateRestaurantInfo(dto));
+	}
+	
+	@GetMapping("/review/list")
+	public ResponseEntity<List<BmReviewDto>> getReviewList(@AuthenticationPrincipal MemberUserDetails member) {
+		return ResponseEntity.ok(businessmanService.getReviewList(member));
 	}
 }

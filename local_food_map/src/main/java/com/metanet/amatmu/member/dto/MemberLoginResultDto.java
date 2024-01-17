@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class MemberLoginResultDto {
 	private long userId;
+	private long bmId;
 	private String userEmail;
 	private String token;
 	private String userProfileImg;
