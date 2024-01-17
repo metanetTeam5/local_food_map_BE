@@ -8,6 +8,7 @@ import com.metanet.amatmu.businessman.dto.BmImageResultDto;
 import com.metanet.amatmu.businessman.dto.BmInfoDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterDto;
 import com.metanet.amatmu.businessman.dto.BmRestaurantInfoDto;
+import com.metanet.amatmu.businessman.dto.BmReviewDto;
 import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
@@ -29,4 +30,5 @@ public interface IBusinessmanService {
 	BmRestaurantInfoDto getBmRestInfo(MemberUserDetails member);
 	String updateRestaurantImage(MultipartFile restImg, long restId);
 	String updateRestaurantInfo(BmUpdateRestaurantInfoDto dto);
+	List<BmReviewDto> getReviewList(MemberUserDetails member);
 }

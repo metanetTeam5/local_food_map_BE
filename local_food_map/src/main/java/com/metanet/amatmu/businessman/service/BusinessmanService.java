@@ -15,6 +15,7 @@ import com.metanet.amatmu.businessman.dto.BmImageResultDto;
 import com.metanet.amatmu.businessman.dto.BmInfoDto;
 import com.metanet.amatmu.businessman.dto.BmRegisterDto;
 import com.metanet.amatmu.businessman.dto.BmRestaurantInfoDto;
+import com.metanet.amatmu.businessman.dto.BmReviewDto;
 import com.metanet.amatmu.businessman.dto.BmUpdateRestImgDto;
 import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
@@ -22,6 +23,7 @@ import com.metanet.amatmu.businessman.exception.BusinessmanErrorCode;
 import com.metanet.amatmu.businessman.exception.BusinessmanException;
 import com.metanet.amatmu.businessman.model.Businessman;
 import com.metanet.amatmu.config.security.JwtTokenProvider;
+import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
 import com.metanet.amatmu.member.dto.MemberLoginResultDto;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
@@ -32,6 +34,8 @@ import com.metanet.amatmu.member.model.MemberUserDetails;
 import com.metanet.amatmu.member.service.IMemberService;
 import com.metanet.amatmu.restaurant.dao.IRestaurantRepository;
 import com.metanet.amatmu.restaurant.model.Restaurant;
+import com.metanet.amatmu.review.dao.IReviewRepository;
+import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.utils.S3Uploader;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -59,6 +63,12 @@ public class BusinessmanService implements IBusinessmanService{
 	
 	@Autowired
 	IRestaurantRepository restDao;
+	
+	@Autowired
+	IReviewRepository revwDao;
+	
+	@Autowired
+	IMemberRepository membDao;
 
 	@Override
 	public Long selectMaxBmNo() {
@@ -139,6 +149,8 @@ public class BusinessmanService implements IBusinessmanService{
 			throw new BusinessmanException(BusinessmanErrorCode.INVALID_ROLE);
 		}
 		
+		Businessman bm = bmDao.getBmListByMemberId(member.getMemberId()).get(0);
+		
 		String token = provider.generateToken(member);
 		
 		MemberLoginResultDto result = new MemberLoginResultDto();
@@ -146,6 +158,7 @@ public class BusinessmanService implements IBusinessmanService{
 		result.setUserEmail(member.getEmail());
 		result.setToken(token);
 		result.setUserProfileImg(member.getProfileImg());
+		result.setBmId(bm.getBusinessmanId());
 		
 		return result;
 	}
@@ -278,5 +291,31 @@ public class BusinessmanService implements IBusinessmanService{
 		if (member == null) {
 			throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
 		}
+	}
+
+	@Override
+	public List<BmReviewDto> getReviewList(MemberUserDetails member) {
+		Businessman bm = bmDao.getBmListByMemberId(member.getMemberId()).get(0);
+		
+		Restaurant rest = restDao.selectRestaurantByRestId(bm.getRestaurantId());
+		
+		List<Review> reviewList = revwDao.selectReviewsByRestId(rest.getRestId());
+		
+		List<BmReviewDto> result = new ArrayList<>();
+		
+		for (Review review : reviewList) {
+			BmReviewDto dto = new BmReviewDto();
+			dto.setRevwId(review.getRevwId());
+			dto.setRevwStarRate(review.getRevwStarRate());
+			dto.setRevwContent(review.getRevwContent());
+			dto.setRevwImg(review.getRevwImg());
+			
+			Member memb = membDao.selectMemberById(review.getMembId());
+			dto.setMembEmail(memb.getEmail());
+			dto.setMembNickname(memb.getNickname());
+			
+			result.add(dto);
+		}
+		return result;
 	}
 }
