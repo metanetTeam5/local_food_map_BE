@@ -1,5 +1,6 @@
 package com.metanet.amatmu.reviewdelete.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.review.dao.IReviewRepository;
 import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.reviewdelete.dao.IReviewdeleteRepository;
+import com.metanet.amatmu.reviewdelete.dto.ReviewBmanDto;
 import com.metanet.amatmu.reviewdelete.model.Reviewdelete;
 import com.metanet.amatmu.reviewdelete.model.ReviewdeleteDto;
 
@@ -43,10 +45,20 @@ public class ReviewdeleteService implements IReviewdeleteService {
 	}
 	
 	@Override
-	public List<Reviewdelete>	getDeleteReviewRequest() {
+	public List<ReviewBmanDto>	getDeleteReviewRequest() {
 		List<Reviewdelete>	reviewdeletes = reviewdeleteRepository.selectReviewdeletes();
+		List<ReviewBmanDto>	reviewBmanDtos = new ArrayList<>();
 		
-		return reviewdeletes;
+		for (Reviewdelete rv :reviewdeletes ) {
+			Review			review = reviewRepository.selectReviewById(rv.getRevwId());
+			ReviewBmanDto	rBmanDto = new ReviewBmanDto(rv.getRdelId(), rv.getBmanId(), rv.getRevwId(),
+					review.getRevwContent(),	//revwContent
+					review.getRevwStarRate()	//revwstarRate
+					);
+			reviewBmanDtos.add(rBmanDto);
+		}
+		
+		return reviewBmanDtos;	//return reviewdeletes;
 	}
 	
 	@Override

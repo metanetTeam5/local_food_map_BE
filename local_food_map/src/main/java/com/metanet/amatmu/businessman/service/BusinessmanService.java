@@ -23,6 +23,7 @@ import com.metanet.amatmu.businessman.exception.BusinessmanErrorCode;
 import com.metanet.amatmu.businessman.exception.BusinessmanException;
 import com.metanet.amatmu.businessman.model.Businessman;
 import com.metanet.amatmu.config.security.JwtTokenProvider;
+import com.metanet.amatmu.exception.QueryFailedException;
 import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
 import com.metanet.amatmu.member.dto.MemberLoginResultDto;
@@ -318,4 +319,22 @@ public class BusinessmanService implements IBusinessmanService{
 		}
 		return result;
 	}
+	
+	@Override
+	public List<Businessman>	getBmanPartnershipRequests() {
+		List<Businessman>	businessmans = bmDao.selectBmanPartnershipRequests();
+		
+		return businessmans;
+	}
+	@Override
+	public String				acceptBmanPartnership(Long businessmanId) {
+		int	queryStatus = 0;
+		
+		queryStatus = bmDao.updateBmStatusGranted(businessmanId);
+		if (queryStatus == 0) {
+			throw new QueryFailedException("Failed to update businessman's status");
+		}
+		return "제휴 승낙 ";
+	}
+
 }

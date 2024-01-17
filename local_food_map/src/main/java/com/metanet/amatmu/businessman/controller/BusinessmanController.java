@@ -22,6 +22,7 @@ import com.metanet.amatmu.businessman.dto.BmRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.BmReviewDto;
 import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
+import com.metanet.amatmu.businessman.model.Businessman;
 import com.metanet.amatmu.businessman.service.IBusinessmanService;
 import com.metanet.amatmu.member.dto.MemberLoginDto;
 import com.metanet.amatmu.member.dto.MemberLoginResultDto;
@@ -93,4 +94,15 @@ public class BusinessmanController {
 	public ResponseEntity<List<BmReviewDto>> getReviewList(@AuthenticationPrincipal MemberUserDetails member) {
 		return ResponseEntity.ok(businessmanService.getReviewList(member));
 	}
+	
+	@GetMapping("/admin/request/list")
+	public ResponseEntity<List<Businessman>>	getBmanPartnershipRequests() {
+		return ResponseEntity.ok(businessmanService.getBmanPartnershipRequests());
+	}
+	
+	@GetMapping("/admin/accept/{businessmanId}")
+	public ResponseEntity<String>	acceptBmanPartnership(@PathVariable Long businessmanId) {
+		return ResponseEntity.ok(businessmanService.acceptBmanPartnership(businessmanId));
+	}
+	
 }
