@@ -32,6 +32,7 @@ public interface IReviewService {
 	
 	void			uploadReviewImg(Long reservationId, MultipartFile file);
 	Review			createReviewWithImg(User member, Long reservationId, ReviewImageCreateDto reviewDto, MultipartFile file);
+	Review 			createReviewWithImg(User member, Long reservationId, ReviewImageCreateDto reviewDto);
 	
 //	Review			requestDeleteReview(Long reviewId);
 //	List<Review>	getDeleteReviewRequest(Long reviewId);

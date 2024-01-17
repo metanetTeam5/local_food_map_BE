@@ -18,4 +18,5 @@ public interface IReservationRepository {
 	
 	int updateReservation(Reservation reservation);
 	Reservation selectReservationByResvId(long resvId);
+	int	updateReservationStatusToY(Reservation reservation);
 }
