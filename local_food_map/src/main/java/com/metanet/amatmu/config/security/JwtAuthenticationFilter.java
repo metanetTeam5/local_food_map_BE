@@ -24,8 +24,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		if (request.getMethod().equals("OPTIONS")) {
-			System.out.println("OPTIONS 처리");
-			System.out.println(request.getHeader("origin"));
 			response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
 	        response.setHeader("Access-Control-Allow-Credentials", "true");
 	        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH");

@@ -156,7 +156,6 @@ public class ReservationService implements IReservationService{
 			e.printStackTrace();
 		}
 		
-	    reservation.setResvHeadCount(updateDto.getResvHeadCount());
 	    reservation.setResvHour(updateDto.getResvHour());
 	    reservation.setResvRequirement(updateDto.getResvRequirement());
 	    reservation.setResvPayAmount(updateDto.getResvPayAmount());
@@ -165,6 +164,45 @@ public class ReservationService implements IReservationService{
 	    reservationDao.updateReservation(reservation);
 
 	    return reservation;
+	}
+
+	@Override
+	public Reservation cancelMemberReservation(long memberId, long resvId, ReservationInsertDto reservationDto) {
+		Reservation prevReservation = reservationDao.selectReservationByResvId(resvId);
+		prevReservation.setResvStatus("X");
+		reservationDao.updateReservation(prevReservation);
+		
+		Reservation reservation = new Reservation();
+		
+		reservation.setResvId(reservationDao.selectMaxReservationNo() + 1);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		
+		try {
+			java.util.Date utilResvDate = formatter.parse(reservationDto.getResvDate());
+			Date sqlResvDate = new Date(utilResvDate.getTime());
+			reservation.setResvDate(sqlResvDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		reservation.setResvHeadCount(reservationDto.getResvHeadCount());
+		reservation.setResvHour(reservationDto.getResvHour());
+		reservation.setResvStatus("O");
+		reservation.setResvRequirement(reservationDto.getResvRequirement());
+		
+		Restaurant restaurant = restaurantDao.selectRestaurantByRestId(reservationDto.getRestId());
+		
+		reservation.setResvPayAmount(restaurant.getRestDeposit() * reservationDto.getResvHeadCount());
+		reservation.setMembId(memberId);
+		reservation.setRestId(reservationDto.getRestId());
+		
+		int curRestMaxResv = restaurant.getRestMaxResv();
+		restaurant.setRestMaxResv(curRestMaxResv - reservationDto.getResvHeadCount());
+		
+		reservationDao.insertReservation(reservation);
+		restaurantDao.updateRestaurant(restaurant);
+		
+		return reservation;
 	}
 	
 	
