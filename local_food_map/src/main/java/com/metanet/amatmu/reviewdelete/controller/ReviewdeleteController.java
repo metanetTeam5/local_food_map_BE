@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.metanet.amatmu.review.model.Review;
 import com.metanet.amatmu.review.service.IReviewService;
+import com.metanet.amatmu.reviewdelete.dto.ReviewBmanDto;
 import com.metanet.amatmu.reviewdelete.model.Reviewdelete;
 import com.metanet.amatmu.reviewdelete.model.ReviewdeleteDto;
 import com.metanet.amatmu.reviewdelete.service.IReviewdeleteService;
@@ -39,11 +40,17 @@ public class ReviewdeleteController {
 	
 	//관리자의 리뷰 삭제 요청 조회
 	@GetMapping("/admin/review/delete/list")
-	public ResponseEntity<List<Reviewdelete>>	getDeleteReviewRequest() {
-		List<Reviewdelete>	reviewdeletes = reviewdeleteService.getDeleteReviewRequest(); 
+	public ResponseEntity<List<ReviewBmanDto>>	getDeleteReviewRequest() {
+		List<ReviewBmanDto>	reviewdeletes = reviewdeleteService.getDeleteReviewRequest(); 
 		
 		return new ResponseEntity<>(reviewdeletes, HttpStatus.OK);
 	}
+//	@GetMapping("/admin/review/delete/list")
+//	public ResponseEntity<List<Reviewdelete>>	getDeleteReviewRequest() {
+//		List<Reviewdelete>	reviewdeletes = reviewdeleteService.getDeleteReviewRequest(); 
+//		
+//		return new ResponseEntity<>(reviewdeletes, HttpStatus.OK);
+//	}
 
 	//관리자의 리뷰 삭제 관리 
 	@DeleteMapping("/admin/review/delete/{reviewdeleteId}")

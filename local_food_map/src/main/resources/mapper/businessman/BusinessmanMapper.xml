@@ -133,4 +133,29 @@
 			rest_id=#{restId}
 	]]>
 	</update>
+	
+	<!-- List<Businessman>	selectBmanPartnershipRequests(); -->
+	<select id="selectBmanPartnershipRequests" resultMap="BusinessmanResultMap">
+	<![CDATA[
+		SELECT 
+			*
+		FROM 
+			businessman
+		WHERE 
+			bman_status = 'REQUEST'
+	]]>
+	</select>
+	
+	<!-- int					acceptBmanPartnership(Long businessmanId); -->
+	<update id="updateBmStatusGranted" parameterType="long">
+	<![CDATA[
+		UPDATE businessman
+		SET 
+			bman_status='GRANTED'
+		WHERE 
+			bman_id=#{businessmanId}
+	]]>
+	</update>
+	
+	
 </mapper>

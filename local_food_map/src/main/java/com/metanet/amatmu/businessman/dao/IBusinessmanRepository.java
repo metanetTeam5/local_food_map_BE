@@ -29,4 +29,7 @@ public interface IBusinessmanRepository {
 	Restaurant selectRestaurantByBmId(long bmId);
 	int updateRestaurantImage(BmUpdateRestImgDto dto);
 	int updateRestaurantInfo(BmUpdateRestaurantInfoDto dto);
+	
+	List<Businessman>	selectBmanPartnershipRequests();
+	int					updateBmStatusGranted(Long businessmanId);
 }
