@@ -56,4 +56,15 @@ public class SmsUtil {
         
         return response;
     }
+	
+	public SingleMessageSentResponse sendReservationInfo(String phoneNumber, String resvHour, String restName) {
+        Message message = new Message();
+        message.setFrom(fromNumber);
+        message.setTo(phoneNumber);
+        message.setText("내일 " + resvHour + "에 " + restName + " 예약이 있습니다.");
+       
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        
+        return response;
+    }
 }

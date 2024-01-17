@@ -15,4 +15,5 @@ public interface IReservationService {
 	List<BmReservationDto> getBmReservationList(long membId);
 	
 	Reservation updateMemberReservation(long memberId, long resvId, ReservationUpdateDto updateDto);
+	Reservation cancelMemberReservation(long memberId, long resvId, ReservationInsertDto reservationDto);
 }
