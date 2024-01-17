@@ -121,11 +121,45 @@ public class ReviewService implements IReviewService {
 			throw new QueryFailedException("Failed to insert review: query error");
 		} else {
 			reservation.setResvStatus("Y");
-			reservationRepository.updateReservation(reservation);
+			System.out.println(reservation);
+			reservationRepository.updateReservationStatusToY(reservation);
+		}
+		return createdReview;
+	}
+	
+	//overloading
+	@Override
+	public Review			createReviewWithImg(User member, Long reservationId, ReviewImageCreateDto reviewDto) {
+		if (!checkDuplicateReview(reservationId)) {
+			throw new QueryFailedException("only 1 review per reservation is allowed.");
 		}
 		
+		Long		membId = memberRepository.selectMember(member.getUsername()).getMemberId();
+		String		reviewImg = "";
+		int			queryStatus = 0;
+		Long		reviewId = reviewRepository.selectMaxReviewId() + 1;
+		Reservation	reservation = reservationRepository.selectReservationByResvId(reservationId);
+		Review		createdReview = new Review(reviewId,
+				reviewDto.getRevwStarRate(), 
+				reviewDto.getRevwContent(), 
+				new Date(System.currentTimeMillis()), 
+	//						reviewDto.getRevwImg(),
+	//						"www.ex.com",
+				
+				reviewImg,
+				reviewDto.getRestId(), 
+				membId, 
+				reservationId);
+	
+		queryStatus = reviewRepository.insertReview(createdReview);
+		if (queryStatus == 0) {
+			throw new QueryFailedException("Failed to insert review: query error");
+		} else {
+			reservation.setResvStatus("Y");
+			System.out.println(reservation);
+			reservationRepository.updateReservationStatusToY(reservation);
+		}
 		return createdReview;
-
 	}
 
 	

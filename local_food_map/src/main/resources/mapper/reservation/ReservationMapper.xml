@@ -65,6 +65,16 @@
 			resv_id=#{resvId}
 	]]>
 	</update>
+	
+	  <update id="updateReservationStatusToY" parameterType="com.metanet.amatmu.reservation.model.Reservation">
+	<![CDATA[
+		UPDATE reservation
+		SET 
+			resv_status=#{resvStatus}
+		WHERE 
+			resv_id=#{resvId}
+	]]>
+	</update>
 	<select id="selectReservationByResvId" parameterType="long" resultType="com.metanet.amatmu.reservation.model.Reservation">
   	<![CDATA[
       	SELECT

@@ -65,12 +65,32 @@ public class ReviewController {
 			@AuthenticationPrincipal User member, 
 			@PathVariable Long reservationId,
 			@RequestPart("review") ReviewImageCreateDto reviewDto,
-			@RequestPart("file") MultipartFile file
+			@RequestPart(value = "file", required = false) MultipartFile file
  			){
-		Review	review = reviewService.createReviewWithImg(member, reservationId, reviewDto, file);
+		Review	review;
 		
+		System.out.println(file);
+		
+		if (file != null) {
+			review = reviewService.createReviewWithImg(member, reservationId, reviewDto, file);
+		}else {
+			review = reviewService.createReviewWithImg(member, reservationId, reviewDto);
+		}
 		return new ResponseEntity<>(review, HttpStatus.CREATED);
 	}
+	
+//	@PostMapping("/reviewimage/reservation/{reservationId}")
+//	public ResponseEntity<Review>	createReviewWithImg(
+//			@AuthenticationPrincipal User member, 
+//			@PathVariable Long reservationId,
+//			@RequestPart("review") ReviewImageCreateDto reviewDto
+// 			){
+//		Review	review = reviewService.createReviewWithImg(member, reservationId, reviewDto);
+//		
+//		return new ResponseEntity<>(review, HttpStatus.CREATED);
+//	}
+//	
+//	
 	
 	
 	
