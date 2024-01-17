@@ -34,7 +34,6 @@ public class MemberUserDetailsService implements UserDetailsService {
 		String role = memberInfo.getRole();
 		String[] roleArr = new String[1];
 		roleArr[0] = role;
-		logger.info(memberInfo.getEmail());
 
 		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roleArr);
 

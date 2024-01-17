@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class ReservationUpdateDto {
     private String resvDate;
-    private int resvHeadCount;
     private String resvHour;
     private String resvRequirement;
     private int resvPayAmount;

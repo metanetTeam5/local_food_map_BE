@@ -59,7 +59,7 @@
 	<![CDATA[
 		UPDATE reservation
 		SET 
-			resv_date=#{resvDate}, resv_headcount=#{resvHeadCount}, 
+			resv_date=#{resvDate}, resv_headcount=#{resvHeadCount}, resv_status=#{resvStatus},
 			resv_hour=#{resvHour}, resv_requirement=#{resvRequirement}, resv_pay_amount=#{resvPayAmount}
 		WHERE 
 			resv_id=#{resvId}
@@ -85,4 +85,10 @@
       	
       ]]>
       </select>  
+            <select id="selectResvByResvDate" resultMap="ReservationResultMap">
+  		<![CDATA[
+      	select * from reservation
+		where trunc(resv_date) = trunc(sysdate) + 1
+      ]]>
+      </select> 
 </mapper>

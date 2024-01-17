@@ -71,7 +71,6 @@ public class JwtTokenProvider {
 	}
 	
 	public String getUserId(String token) {
-		log.info(token);
 		return Jwts.parser()
 				.verifyWith(key).build()
 				.parseSignedClaims(token)
