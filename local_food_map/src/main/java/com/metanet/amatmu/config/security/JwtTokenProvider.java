@@ -29,7 +29,7 @@ public class JwtTokenProvider {
 	private static MacAlgorithm alg = Jwts.SIG.HS256;
 	private static final String SECRET_KEY = "amatmufoodlocalmapamatmufoodlocalmapamatmufoodlocalmap";
 	private static SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
-	private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60;
+	private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60 * 3;
 	
 	@Autowired
 	UserDetailsService userDetailService;

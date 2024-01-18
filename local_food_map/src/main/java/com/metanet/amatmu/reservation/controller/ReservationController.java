@@ -56,9 +56,19 @@ public class ReservationController {
 	@PostMapping("/cancel/{resvId}")
 	public ResponseEntity<Reservation> cancelMemberReservation(
 			@AuthenticationPrincipal MemberUserDetails member,
-			@PathVariable long resvId,
-			@RequestBody ReservationInsertDto reservationDto
+			@PathVariable long resvId
 			) {
-		return ResponseEntity.ok(reservationService.cancelMemberReservation(member.getMemberId(), resvId, reservationDto));
+		return ResponseEntity.ok(reservationService.cancelMemberReservation(member.getMemberId(), resvId));
+	}
+	
+	@PostMapping("/bm/visit/{resvId}")
+	public ResponseEntity<Reservation> updateReservationVisit(
+			@AuthenticationPrincipal MemberUserDetails member, @PathVariable long resvId) {
+		return ResponseEntity.ok(reservationService.updateReservationVisit(member, resvId));
+	}
+	
+	@GetMapping("/info/{resvId}")
+	public ResponseEntity<Reservation> getReservationInfo(@PathVariable long resvId) {
+		return ResponseEntity.ok(reservationService.getReservationInfo(resvId));
 	}
 }

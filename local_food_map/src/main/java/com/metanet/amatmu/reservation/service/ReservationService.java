@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metanet.amatmu.businessman.dao.IBusinessmanRepository;
+import com.metanet.amatmu.businessman.exception.BusinessmanErrorCode;
+import com.metanet.amatmu.businessman.exception.BusinessmanException;
 import com.metanet.amatmu.businessman.model.Businessman;
 import com.metanet.amatmu.member.dao.IMemberRepository;
 import com.metanet.amatmu.member.model.Member;
+import com.metanet.amatmu.member.model.MemberUserDetails;
 import com.metanet.amatmu.reservation.dao.IReservationRepository;
 import com.metanet.amatmu.reservation.dto.BmReservationDto;
 import com.metanet.amatmu.reservation.dto.ReservationInsertDto;
@@ -61,7 +64,7 @@ public class ReservationService implements IReservationService{
 			
 			Restaurant restaurant = restaurantDao.selectRestaurantByRestId(resv.getRestId());
 			resultDto.setRestName(restaurant.getRestName());
-			resultDto.setRestImg(null);
+			resultDto.setRestImg(restaurant.getRestImg());
 			
 			Review	review = reviewDao.selectReviewByReservationId(resv.getResvId());
 			
@@ -158,7 +161,6 @@ public class ReservationService implements IReservationService{
 		
 	    reservation.setResvHour(updateDto.getResvHour());
 	    reservation.setResvRequirement(updateDto.getResvRequirement());
-	    reservation.setResvPayAmount(updateDto.getResvPayAmount());
 
 	    // 데이터베이스에서 예약 업데이트
 	    reservationDao.updateReservation(reservation);
@@ -167,43 +169,34 @@ public class ReservationService implements IReservationService{
 	}
 
 	@Override
-	public Reservation cancelMemberReservation(long memberId, long resvId, ReservationInsertDto reservationDto) {
+	public Reservation cancelMemberReservation(long memberId, long resvId) {
 		Reservation prevReservation = reservationDao.selectReservationByResvId(resvId);
 		prevReservation.setResvStatus("X");
 		reservationDao.updateReservation(prevReservation);
 		
-		Reservation reservation = new Reservation();
+		return prevReservation;
+	}
+
+	@Override
+	public Reservation updateReservationVisit(MemberUserDetails member, long resvId) {
+		Reservation reservation = reservationDao.selectReservationByResvId(resvId);
 		
-		reservation.setResvId(reservationDao.selectMaxReservationNo() + 1);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		Businessman businessman = bmDao.getBmListByMemberId(member.getMemberId()).get(0);
 		
-		try {
-			java.util.Date utilResvDate = formatter.parse(reservationDto.getResvDate());
-			Date sqlResvDate = new Date(utilResvDate.getTime());
-			reservation.setResvDate(sqlResvDate);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (businessman.getRestaurantId() == null || businessman.getRestaurantId() != reservation.getRestId()) {
+			throw new BusinessmanException(BusinessmanErrorCode.RESTAURANT_NOT_MATCHED);
 		}
 		
-		reservation.setResvHeadCount(reservationDto.getResvHeadCount());
-		reservation.setResvHour(reservationDto.getResvHour());
-		reservation.setResvStatus("O");
-		reservation.setResvRequirement(reservationDto.getResvRequirement());
+		reservation.setResvStatus("C");
 		
-		Restaurant restaurant = restaurantDao.selectRestaurantByRestId(reservationDto.getRestId());
-		
-		reservation.setResvPayAmount(restaurant.getRestDeposit() * reservationDto.getResvHeadCount());
-		reservation.setMembId(memberId);
-		reservation.setRestId(reservationDto.getRestId());
-		
-		int curRestMaxResv = restaurant.getRestMaxResv();
-		restaurant.setRestMaxResv(curRestMaxResv - reservationDto.getResvHeadCount());
-		
-		reservationDao.insertReservation(reservation);
-		restaurantDao.updateRestaurant(restaurant);
+		reservationDao.updateReservation(reservation);
 		
 		return reservation;
 	}
-	
+
+	@Override
+	public Reservation getReservationInfo(long resvId) {
+		return reservationDao.selectReservationByResvId(resvId);
+	}
 	
 }
