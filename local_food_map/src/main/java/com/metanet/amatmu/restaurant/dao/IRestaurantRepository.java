@@ -19,6 +19,10 @@ public interface IRestaurantRepository {
 	int					deleteRestaurant(Long restId);
 	List<Businessman>	selectBmanRequest();
 	int					evaluateBmanRequest(EvaluateBmanDto evaluateBmanDto);
+
+	List<Restaurant> searchRestaurants(String restCategory, String restKeyword, String restName, String restStation);
+
+	List<Restaurant> selectAllRestaurants(String restCategory, String restKeyword, String restName, String restStation);
 	
 	List<Restaurant>	selectRestaurantsByKeyword(String searchKeyword);
 	int					updateRestaurant(Restaurant restaurant);

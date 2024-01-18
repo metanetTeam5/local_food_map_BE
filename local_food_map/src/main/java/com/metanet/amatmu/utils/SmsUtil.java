@@ -37,7 +37,7 @@ public class SmsUtil {
            code += Integer.toString(random.nextInt(10));
         }
         
-        message.setText("인증번호 : " + code);
+        message.setText("[아맛무]\n인증번호 : " + code);
        
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         
@@ -50,7 +50,7 @@ public class SmsUtil {
         Message message = new Message();
         message.setFrom(fromNumber);
         message.setTo(phoneNumber);
-        message.setText("임시비밀번호 : " + password);
+        message.setText("[아맛무]\n임시비밀번호 : " + password);
        
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         
@@ -61,7 +61,7 @@ public class SmsUtil {
         Message message = new Message();
         message.setFrom(fromNumber);
         message.setTo(phoneNumber);
-        message.setText("내일 " + resvHour + "에 " + restName + " 예약이 있습니다.");
+        message.setText("[아맛무]\n내일 " + resvHour + "에 " + restName + " 예약이 있습니다.");
        
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         
