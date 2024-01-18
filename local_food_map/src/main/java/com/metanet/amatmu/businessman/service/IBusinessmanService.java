@@ -24,7 +24,7 @@ public interface IBusinessmanService {
 	Long selectMaxBmNo();
 	void registerBm(BmRegisterDto bmDto);
 	boolean checkLicenseNumberDuplicate(String licenseNumber);
-	BmImageResultDto uploadBmImage(MultipartFile registration, MultipartFile report, MultipartFile bankbook);
+	BmImageResultDto uploadBmImage(MultipartFile registration, MultipartFile report, MultipartFile bankbook, MultipartFile residence);
 	MemberLoginResultDto bmLogin(MemberLoginDto loginDto);
 	String bmLogout(HttpServletRequest request);
 	List<BmInfoDto> getBmInfo(String email);

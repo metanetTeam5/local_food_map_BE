@@ -48,8 +48,8 @@ public class BusinessmanController {
 	
 	@PostMapping("/images")
 	public ResponseEntity<BmImageResultDto> uploadBmImage(
-			MultipartFile registration, MultipartFile report, MultipartFile bankbook) {
-		return ResponseEntity.status(201).body(businessmanService.uploadBmImage(registration, report, bankbook));
+			MultipartFile registration, MultipartFile report, MultipartFile bankbook, MultipartFile residence) {
+		return ResponseEntity.status(201).body(businessmanService.uploadBmImage(registration, report, bankbook, residence));
 	}
 	
 	@PostMapping("/login")

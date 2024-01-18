@@ -103,6 +103,7 @@ public class BusinessmanService implements IBusinessmanService{
 		bm.setRegistration(bmDto.getRegistration());
 		bm.setReport(bmDto.getReport());
 		bm.setBankbook(bmDto.getBankbook());
+		bm.setResidence(bmDto.getResidence());
 		bm.setAccount(bmDto.getAccount());
 		bm.setStatus("WAIT");
 		
@@ -116,15 +117,17 @@ public class BusinessmanService implements IBusinessmanService{
 	}
 	
 	@Override
-	public BmImageResultDto uploadBmImage(MultipartFile registration, MultipartFile report, MultipartFile bankbook) {
+	public BmImageResultDto uploadBmImage(MultipartFile registration, MultipartFile report, MultipartFile bankbook, MultipartFile residence) {
 		String registrationUrl = s3Uploader.fileUpload(registration);
 		String reportUrl = s3Uploader.fileUpload(report);
 		String bankbookUrl = s3Uploader.fileUpload(bankbook);
+		String residenceUrl = s3Uploader.fileUpload(residence);
 		
 		BmImageResultDto result = new BmImageResultDto();
 		result.setRegistration(registrationUrl);
 		result.setReport(reportUrl);
 		result.setBankbook(bankbookUrl);
+		result.setResidence(residenceUrl);
 		
 		return result;
 	}
@@ -195,6 +198,7 @@ public class BusinessmanService implements IBusinessmanService{
 			info.setRegistration(bm.getRegistration());
 			info.setReport(bm.getReport());
 			info.setBankbook(bm.getBankbook());
+			info.setResidence(bm.getResidence());
 			info.setCreateDate(bm.getCreateDate());
 			info.setGrantDate(bm.getGrantDate());
 			info.setAccount(bm.getAccount());
@@ -230,6 +234,7 @@ public class BusinessmanService implements IBusinessmanService{
 		info.setRegistration(updateBm.getRegistration());
 		info.setReport(updateBm.getReport());
 		info.setBankbook(updateBm.getBankbook());
+		info.setResidence(updateBm.getResidence());
 		info.setCreateDate(updateBm.getCreateDate());
 		info.setGrantDate(updateBm.getGrantDate());
 		info.setAccount(updateBm.getAccount());
