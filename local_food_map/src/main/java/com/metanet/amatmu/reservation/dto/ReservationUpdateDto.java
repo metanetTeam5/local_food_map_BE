@@ -11,5 +11,4 @@ public class ReservationUpdateDto {
     private String resvDate;
     private String resvHour;
     private String resvRequirement;
-    private int resvPayAmount;
 }

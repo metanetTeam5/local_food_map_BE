@@ -104,7 +104,6 @@ public class ReviewService implements IReviewService {
 		String		reviewImg = s3Uploader.fileUpload(file);
 		int			queryStatus = 0;
 		Long		reviewId = reviewRepository.selectMaxReviewId() + 1;
-		Reservation	reservation = reservationRepository.selectReservationByResvId(reservationId);
 		Review		createdReview = new Review(reviewId,
 				reviewDto.getRevwStarRate(), 
 				reviewDto.getRevwContent(), 
@@ -119,10 +118,6 @@ public class ReviewService implements IReviewService {
 		queryStatus = reviewRepository.insertReview(createdReview);
 		if (queryStatus == 0) {
 			throw new QueryFailedException("Failed to insert review: query error");
-		} else {
-			reservation.setResvStatus("Y");
-			System.out.println(reservation);
-			reservationRepository.updateReservationStatusToY(reservation);
 		}
 		return createdReview;
 	}
@@ -138,7 +133,6 @@ public class ReviewService implements IReviewService {
 		String		reviewImg = "";
 		int			queryStatus = 0;
 		Long		reviewId = reviewRepository.selectMaxReviewId() + 1;
-		Reservation	reservation = reservationRepository.selectReservationByResvId(reservationId);
 		Review		createdReview = new Review(reviewId,
 				reviewDto.getRevwStarRate(), 
 				reviewDto.getRevwContent(), 
@@ -154,11 +148,7 @@ public class ReviewService implements IReviewService {
 		queryStatus = reviewRepository.insertReview(createdReview);
 		if (queryStatus == 0) {
 			throw new QueryFailedException("Failed to insert review: query error");
-		} else {
-			reservation.setResvStatus("Y");
-			System.out.println(reservation);
-			reservationRepository.updateReservationStatusToY(reservation);
-		}
+		} 
 		return createdReview;
 	}
 
