@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.metanet.amatmu.member.dto.MemberRegisterDto;
 import com.metanet.amatmu.member.service.MemberService;
 import com.metanet.amatmu.review.dto.ReviewImageCreateDto;
+import com.metanet.amatmu.review.dto.ReviewImageUpdateDto;
 import com.metanet.amatmu.review.dto.ReviewResultDto;
 import com.metanet.amatmu.review.dto.ReviewResultRestaurantDto;
 import com.metanet.amatmu.review.model.Review;
@@ -91,10 +92,7 @@ public class ReviewController {
 //	}
 //	
 //	
-	
-	
-	
-	
+
 	//리뷰아이디로 리뷰 조회
 	@GetMapping("/review/search/{reviewId}")
 	public ResponseEntity<Review>	getReviewById(@PathVariable Long reviewId) {
@@ -106,11 +104,28 @@ public class ReviewController {
 	
 	//회원의 자신의 리뷰 수정
 	@PutMapping("/review/update/{reviewId}")
-	public ResponseEntity<Review>	updateReviewById(@PathVariable Long reviewId, @RequestBody ReviewDto reviewDto) {
-		Review review = reviewService.updateReviewById(reviewId, reviewDto);
+	public ResponseEntity<Review> updateReviewWithImg(
+			@AuthenticationPrincipal User member,
+			@PathVariable Long reviewId,
+			@RequestPart("review") ReviewImageUpdateDto reviewDto,
+			@RequestPart(value = "file", required = false) MultipartFile file
+			) {
+		Review	review;
 		
-		return new ResponseEntity<>(review, HttpStatus.OK);
-	}	
+		if (file != null) {
+			review = reviewService.updateReviewWithImg(member, reviewId,reviewDto, file);
+		} else {
+			review = reviewService.updateReviewWithImg(member, reviewId,reviewDto);
+		}
+		return new ResponseEntity<>(review, HttpStatus.CREATED);
+	}
+	
+//	@PutMapping("/review/update/{reviewId}")
+//	public ResponseEntity<Review>	updateReviewById(@PathVariable Long reviewId, @RequestBody ReviewDto reviewDto) {
+//		Review review = reviewService.updateReviewById(reviewId, reviewDto);
+//		
+//		return new ResponseEntity<>(review, HttpStatus.OK);
+//	}	
 	
 	//회원의 자신의 리뷰 삭제
 	@DeleteMapping("/review/delete/{reviewId}")
