@@ -22,5 +22,6 @@ public class BmRegisterDto {
 	private String registration;
 	private String report;
 	private String bankbook;
+	private String residence;
 	private String account;
 }

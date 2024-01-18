@@ -17,6 +17,7 @@ public class BmInfoDto {
 	private String registration;
 	private String report;
 	private String bankbook;
+	private String residence;
 	private Date createDate;
 	private Date grantDate;
 	private String account;

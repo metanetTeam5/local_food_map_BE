@@ -14,6 +14,7 @@
     	<result property="registration" column="bman_registration"/>
     	<result property="report" column="bman_report"/>
    	 	<result property="bankbook" column="bman_bankbook"/>
+   	 	<result property="residence" column="bman_residence"/>
    	 	<result property="createDate" column="bman_create_date"/>
    	 	<result property="grantDate" column="bman_grant_date"/>
    	 	<result property="account" column="bman_account"/>
@@ -33,10 +34,10 @@
 	<![CDATA[
 		INSERT INTO 
 			businessman (bman_id, memb_id, bman_company_name, bman_license_number,
-			bman_registration, bman_report, bman_bankbook, bman_account, bman_status) 
+			bman_registration, bman_report, bman_bankbook, bman_residence, bman_account, bman_status) 
 		VALUES 
 			(#{businessmanId}, #{memberId}, #{companyName}, #{licenseNumber},
-			#{registration}, #{report}, #{bankbook}, #{account}, #{status})
+			#{registration}, #{report}, #{bankbook}, #{residence}, #{account}, #{status})
 	]]>
 	</insert>
 	
@@ -74,7 +75,7 @@
 		SELECT 
 			bman_id as businessmanId, memb_id as memberId, rest_id as restaurantId,
 			bman_company_name as companyName, bman_license_number as licenseNumber,
-			bman_registration as registration, bman_report as report, bman_bankbook as bankbook,
+			bman_registration as registration, bman_report as report, bman_bankbook as bankbook, bman_residence as residence,
 			bman_create_date as createDate, bman_grant_date as grantDate, bman_account as account,
 			bman_status as status
 		FROM businessman
