@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.metanet.amatmu.member.model.MemberUserDetails;
@@ -63,8 +64,8 @@ public class ReservationController {
 	
 	@PostMapping("/bm/visit/{resvId}")
 	public ResponseEntity<Reservation> updateReservationVisit(
-			@AuthenticationPrincipal MemberUserDetails member, @PathVariable long resvId) {
-		return ResponseEntity.ok(reservationService.updateReservationVisit(member, resvId));
+			@AuthenticationPrincipal MemberUserDetails member, @PathVariable long resvId, @RequestParam String status) {
+		return ResponseEntity.ok(reservationService.updateReservationVisit(member, resvId, status));
 	}
 	
 	@GetMapping("/info/{resvId}")

@@ -315,6 +315,7 @@ public class BusinessmanService implements IBusinessmanService{
 			dto.setRevwStarRate(review.getRevwStarRate());
 			dto.setRevwContent(review.getRevwContent());
 			dto.setRevwImg(review.getRevwImg());
+			dto.setRevwCreateDate(review.getRevwCreateDate());
 			
 			Member memb = membDao.selectMemberById(review.getMembId());
 			dto.setMembEmail(memb.getEmail());
