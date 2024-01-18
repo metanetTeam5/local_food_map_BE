@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.metanet.amatmu.review.dto.ReviewImageCreateDto;
+import com.metanet.amatmu.review.dto.ReviewImageUpdateDto;
 import com.metanet.amatmu.review.dto.ReviewResultDto;
 import com.metanet.amatmu.review.dto.ReviewResultRestaurantDto;
 import com.metanet.amatmu.review.model.Review;
@@ -33,6 +34,8 @@ public interface IReviewService {
 	void			uploadReviewImg(Long reservationId, MultipartFile file);
 	Review			createReviewWithImg(User member, Long reservationId, ReviewImageCreateDto reviewDto, MultipartFile file);
 	Review 			createReviewWithImg(User member, Long reservationId, ReviewImageCreateDto reviewDto);
+	Review			updateReviewWithImg(User member, Long reviewId, ReviewImageUpdateDto reviewDto, MultipartFile file);
+	Review			updateReviewWithImg(User member, Long reviewId, ReviewImageUpdateDto reviewDto);
 	
 //	Review			requestDeleteReview(Long reviewId);
 //	List<Review>	getDeleteReviewRequest(Long reviewId);

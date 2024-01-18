@@ -23,6 +23,7 @@ import com.metanet.amatmu.restaurant.dao.IRestaurantRepository;
 import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.review.dao.IReviewRepository;
 import com.metanet.amatmu.review.dto.ReviewImageCreateDto;
+import com.metanet.amatmu.review.dto.ReviewImageUpdateDto;
 import com.metanet.amatmu.review.dto.ReviewResultDto;
 import com.metanet.amatmu.review.dto.ReviewResultRestaurantDto;
 import com.metanet.amatmu.review.model.Review;
@@ -160,6 +161,41 @@ public class ReviewService implements IReviewService {
 			reservationRepository.updateReservationStatusToY(reservation);
 		}
 		return createdReview;
+	}
+	
+	@Override
+	public Review		updateReviewWithImg(User member, Long reviewId, ReviewImageUpdateDto reviewDto, MultipartFile file) {
+		String		reviewImg = s3Uploader.fileUpload(file);
+		int			queryStatus = 0;
+		Review		review = reviewRepository.selectReviewById(reviewId);
+		
+		review.setRevwImg(reviewImg);
+		review.setRevwStarRate(reviewDto.getRevwStarRate());
+		review.setRevwContent(reviewDto.getRevwContent());
+		queryStatus = reviewRepository.updateReview(review);
+		if (queryStatus == 0) {
+			throw new QueryFailedException("Failed to update Review");
+		} else {
+			return review;
+		}
+	}
+	
+	@Override
+	public Review			updateReviewWithImg(User member, Long reviewId, ReviewImageUpdateDto reviewDto) {
+		String		reviewImg = "";
+		int			queryStatus = 0;
+		Review		review = reviewRepository.selectReviewById(reviewId);
+		
+		review.setRevwImg(reviewImg);
+		review.setRevwStarRate(reviewDto.getRevwStarRate());
+		review.setRevwContent(reviewDto.getRevwContent());
+		queryStatus = reviewRepository.updateReview(review);
+		if (queryStatus == 0) {
+			throw new QueryFailedException("Failed to update Review");
+		} else {
+			return review;
+		}
+		
 	}
 
 	
