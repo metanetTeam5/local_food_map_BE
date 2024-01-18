@@ -127,12 +127,14 @@ public class ReservationService implements IReservationService{
 				BmReservationDto resultDto = new BmReservationDto();
 				resultDto.setResvId(resv.getResvId());
 				resultDto.setMembId(resv.getMembId());
+				resultDto.setResvStatus(resv.getResvStatus());
 				Member member = membDao.selectMemberById(resv.getMembId());
 				resultDto.setMembEmail(member.getEmail());
 				resultDto.setHeadCount(resv.getResvHeadCount());
 				SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 				String dateStr = fmt.format(resv.getResvDate());
-				resultDto.setResvDate(dateStr + resv.getResvHour());
+				resultDto.setResvDate(dateStr);
+				resultDto.setResvHour(resv.getResvHour());
 				resultDto.setPhoneNumber(member.getPhoneNumber());
 				resultDto.setRequirement(resv.getResvRequirement());
 				
@@ -178,7 +180,7 @@ public class ReservationService implements IReservationService{
 	}
 
 	@Override
-	public Reservation updateReservationVisit(MemberUserDetails member, long resvId) {
+	public Reservation updateReservationVisit(MemberUserDetails member, long resvId, String status) {
 		Reservation reservation = reservationDao.selectReservationByResvId(resvId);
 		
 		Businessman businessman = bmDao.getBmListByMemberId(member.getMemberId()).get(0);
@@ -187,7 +189,7 @@ public class ReservationService implements IReservationService{
 			throw new BusinessmanException(BusinessmanErrorCode.RESTAURANT_NOT_MATCHED);
 		}
 		
-		reservation.setResvStatus("C");
+		reservation.setResvStatus(status);
 		
 		reservationDao.updateReservation(reservation);
 		

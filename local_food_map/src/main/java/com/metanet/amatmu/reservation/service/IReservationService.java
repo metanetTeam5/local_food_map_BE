@@ -18,7 +18,7 @@ public interface IReservationService {
 	Reservation updateMemberReservation(long memberId, long resvId, ReservationUpdateDto updateDto);
 	Reservation cancelMemberReservation(long memberId, long resvId);
 	
-	Reservation updateReservationVisit(MemberUserDetails member, long resvId);
+	Reservation updateReservationVisit(MemberUserDetails member, long resvId, String status);
 	
 	Reservation getReservationInfo(long resvId);
 }

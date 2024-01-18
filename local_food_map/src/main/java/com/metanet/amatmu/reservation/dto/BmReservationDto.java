@@ -14,6 +14,8 @@ public class BmReservationDto {
 	private String membEmail;
 	private int headCount;
 	private String resvDate;
+	private String resvHour;
 	private String phoneNumber;
 	private String requirement;
+	private String resvStatus;
 }
