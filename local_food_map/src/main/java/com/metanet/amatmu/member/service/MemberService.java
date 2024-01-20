@@ -215,13 +215,13 @@ public class MemberService implements IMemberService{
 	   public MemberInfoDto updateMemberInfo(String email, UpdateMemberInfoDto updateMemberInfoDto) {
 	      Member member = selectMember(email);
 	      checkMemberNull(member);
-	      
+      
 	      if (!passwordEncoder.matches(updateMemberInfoDto.getPassword(), member.getPassword())) {
 	         throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
 	      }
 	      
 	      if (updateMemberInfoDto.getNewPassword() != null && !updateMemberInfoDto.getNewPassword().equals("")) {
-	         String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+	         String PASSWORD_PATTERN = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$";
 	          Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 	          Matcher matcher = pattern.matcher(updateMemberInfoDto.getPassword());
 	          
@@ -299,7 +299,7 @@ public class MemberService implements IMemberService{
 			throw new MemberException(MemberErrorCode.EMAIL_DUPLICATED);
 		}
 		
-		String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+		String PASSWORD_PATTERN = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$";
 	    Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 	    Matcher matcher = pattern.matcher(member.getPassword());
 	    
