@@ -57,11 +57,11 @@ public class SmsUtil {
         return response;
     }
 	
-	public SingleMessageSentResponse sendReservationInfo(String phoneNumber, String resvHour, String restName) {
+	public SingleMessageSentResponse sendReservationInfo(String phoneNumber, String resvHour, String restName, int headCount) {
         Message message = new Message();
         message.setFrom(fromNumber);
         message.setTo(phoneNumber);
-        message.setText("[아맛무]\n내일 " + resvHour + "에 " + restName + " 예약이 있습니다.");
+        message.setText("[아맛무]\n내일 " + resvHour + "에 " + headCount +"명 " + restName + " 예약이 있습니다.");
        
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         

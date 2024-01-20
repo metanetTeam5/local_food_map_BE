@@ -21,13 +21,10 @@ public class ReservationScheduling {
 
 	@Autowired
 	IReservationRepository resvDao;
-	
 	@Autowired
 	IMemberRepository membDao;
-	
 	@Autowired
 	IRestaurantRepository restDao;
-	
 	@Autowired
 	SmsUtil sms;
 
@@ -40,7 +37,7 @@ public class ReservationScheduling {
 		for(Reservation resv : resvList) {
 			Member memb = membDao.selectMemberById(resv.getMembId());
 			Restaurant rest = restDao.selectRestaurantByRestId(resv.getRestId());
-			sms.sendReservationInfo(memb.getPhoneNumber(), resv.getResvHour(), rest.getRestName());
+			sms.sendReservationInfo(memb.getPhoneNumber(), resv.getResvHour(), rest.getRestName(), resv.getResvHeadCount());
 		}
 	}
 }
