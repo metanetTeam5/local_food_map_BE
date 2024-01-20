@@ -220,7 +220,7 @@ public class MemberService implements IMemberService{
 	         throw new MemberException(MemberErrorCode.WRONG_PASSWORD);
 	      }
 	      
-	      if (updateMemberInfoDto.getNewPassword() != null) {
+	      if (updateMemberInfoDto.getNewPassword() != null && !updateMemberInfoDto.getNewPassword().equals("")) {
 	         String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
 	          Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 	          Matcher matcher = pattern.matcher(updateMemberInfoDto.getPassword());
