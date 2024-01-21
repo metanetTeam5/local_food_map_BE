@@ -44,6 +44,8 @@
          *
       FROM reservation
       WHERE memb_id = #{membId}
+      ORDER BY
+	  resv_create_date desc
    ]]>
    </select>
    
@@ -53,6 +55,8 @@
          *
       FROM reservation
       WHERE rest_id = #{restId}
+      ORDER BY
+	  resv_create_date desc
    ]]>
    </select>
    <update id="updateReservation" parameterType="com.metanet.amatmu.reservation.model.Reservation">
@@ -91,6 +95,8 @@
       	FROM 
        	 reservation 
       	WHERE resv_id=#{resvId}
+      	ORDER BY
+		resv_create_date desc
       	
       	
       ]]>

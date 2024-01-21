@@ -12,5 +12,7 @@ import com.metanet.amatmu.menu.model.Menu;
 @Mapper
 public interface IMenuRepository {
 
+	Long selectMaxMenuNo();
     List<Menu> selectByRestId(Long restId);
+    void insertMenu(Menu menu);
 }

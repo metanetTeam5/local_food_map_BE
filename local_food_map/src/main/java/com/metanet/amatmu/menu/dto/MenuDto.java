@@ -11,7 +11,7 @@ public class MenuDto {
 
     private Long menuId;
     private String menuName;
-    private String menuPrice;
+    private int menuPrice;
     private String menuImg;
     private Long restId;
 }

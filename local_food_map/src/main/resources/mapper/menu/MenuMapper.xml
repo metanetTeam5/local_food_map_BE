@@ -5,6 +5,14 @@
 
 <mapper namespace="com.metanet.amatmu.menu.dao.IMenuRepository">
 
+	<select id="selectMaxMenuNo" parameterType="long"
+		resultType="long">
+	<![CDATA[
+		SELECT NVL(MAX(menu_id),0) AS "menuNo"
+		FROM Menu
+	]]>
+	</select>
+
     <select id="selectByRestId" parameterType="long" resultType="com.metanet.amatmu.menu.model.Menu">
         SELECT 
         	menu_id as menuId, menu_name as menuName, menu_price as menuPrice,
@@ -13,4 +21,13 @@
         WHERE rest_id = #{restId}
     </select>
 
+	<insert id="insertMenu"
+		parameterType="com.metanet.amatmu.menu.model.Menu">
+	<![CDATA[
+		INSERT INTO 
+			menu (menu_id, menu_name, menu_price, menu_img, rest_id) 
+		VALUES 
+			(#{menuId}, #{menuName}, #{menuPrice}, #{menuImg}, #{restId})
+	]]>
+	</insert>
 </mapper>

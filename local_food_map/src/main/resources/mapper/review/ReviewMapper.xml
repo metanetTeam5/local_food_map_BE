@@ -99,6 +99,8 @@
 			review
 		WHERE
 			memb_id = #{memberId}
+		ORDER BY
+			revw_create_date desc
 	]]>
 	</select>
 	
@@ -117,6 +119,8 @@
 			review
 		WHERE
 			rest_id = #{restId}
+		ORDER BY
+			revw_create_date desc
 	]]>
 	</select>
 	
