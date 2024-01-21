@@ -130,6 +130,7 @@
 		SET 
 			rest_open_time=#{restOpenTime},
 			rest_close_time=#{restCloseTime}
+			rest_deposit=#{restDeposit}
 		WHERE 
 			rest_id=#{restId}
 	]]>
