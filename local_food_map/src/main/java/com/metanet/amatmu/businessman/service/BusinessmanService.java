@@ -91,7 +91,7 @@ public class BusinessmanService implements IBusinessmanService{
 		memberDto.setBirthDate(bmDto.getBirthDate());
 		memberDto.setPhoneNumber(bmDto.getPhoneNumber());
 		
-		memberService.registerMember(memberDto, "ROLE_USER");
+		memberService.registerMember(memberDto, "ROLE_BMAN");
 		
 		Member member = memberService.selectMember(bmDto.getEmail());
 		

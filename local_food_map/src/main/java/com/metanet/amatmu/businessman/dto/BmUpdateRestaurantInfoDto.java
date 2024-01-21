@@ -12,4 +12,6 @@ public class BmUpdateRestaurantInfoDto {
 	private long restId;
 	private String restOpenTime;
 	private String restCloseTime;
+	private int restDeposit;
+	
 }
