@@ -9,6 +9,7 @@ import com.metanet.amatmu.businessman.model.Businessman;
 import com.metanet.amatmu.restaurant.model.EvaluateBmanDto;
 import com.metanet.amatmu.restaurant.model.Restaurant;
 
+
 @Repository
 @Mapper
 public interface IRestaurantRepository {

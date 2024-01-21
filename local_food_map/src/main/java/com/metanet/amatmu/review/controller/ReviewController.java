@@ -111,6 +111,7 @@ public class ReviewController {
 			@RequestPart(value = "file", required = false) MultipartFile file
 			) {
 		Review	review;
+		System.out.println(reviewDto);
 		
 		if (file != null) {
 			review = reviewService.updateReviewWithImg(member, reviewId,reviewDto, file);

@@ -9,6 +9,7 @@ import com.metanet.amatmu.businessman.dto.BmUpdateRestImgDto;
 import com.metanet.amatmu.businessman.dto.BmUpdateRestaurantInfoDto;
 import com.metanet.amatmu.businessman.dto.UpdateBmInfoDto;
 import com.metanet.amatmu.businessman.model.Businessman;
+import com.metanet.amatmu.restaurant.model.BmanUpdateRestIdDto;
 import com.metanet.amatmu.restaurant.model.Restaurant;
 import com.metanet.amatmu.restaurant.model.UpdateRegisterRestaurantDto;
 
@@ -32,4 +33,6 @@ public interface IBusinessmanRepository {
 	
 	List<Businessman>	selectBmanPartnershipRequests();
 	int					updateBmStatusGranted(Long businessmanId);
+	int					updateBmRestaurantByMemberId(BmanUpdateRestIdDto bmamUpdateRestIdDto);
+	
 }
