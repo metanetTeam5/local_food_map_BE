@@ -158,5 +158,15 @@
 	]]>
 	</update>
 	
+	<!-- int					updateBmRestaurantByMemberId(Long memberId); -->
+	<update id="updateBmRestaurantByMemberId" parameterType="com.metanet.amatmu.restaurant.model.BmanUpdateRestIdDto">
+	<![CDATA[
+		UPDATE businessman
+		SET 
+			rest_id=#{restId}
+		WHERE 
+			memb_id=#{memberId}
+	]]>
+	</update>
 	
 </mapper>

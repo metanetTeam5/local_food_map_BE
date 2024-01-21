@@ -10,14 +10,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class RestaurantDto {
-	//로그인한 멤버 아이디로 그 사람의 가게 리스트를 뿌려주고 그중에 고르게 하는식으로 id 값을 가져와야함. 
-//	private Long	businessmanId;
-	
-//	private Long	restId;
+public class RestAndBmanCreateDto {
+//Restaurant
 	private String	restName;
 	private double	restLocationX;
 	private double	restLocationY;
@@ -26,13 +23,17 @@ public class RestaurantDto {
 	private String	restPhoneNumber;
 	private String	restOpenTime;
 	private String	restCloseTime;
-//	private Date	restCreateDate;
-	
 	private String	restStation;
 	private String	restCategory;
 	private int		restMaxResv;
 	private int		restDeposit;
 	private String	restImg;
+//Bman
+	private String	companyName;
+	private String	licenseNumber;
+	private String	registration;
+	private String	report;
+	private String	bankbook;
+	private String	residence;
+	private String	account;
 }
-
-	
